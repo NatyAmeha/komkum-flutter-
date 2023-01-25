@@ -7,6 +7,7 @@ class User {
   @JsonKey(name: "_id")
   String? id;
   String? phoneNumber;
+  String? profileImage;
   String? username;
   String? password;
   String? accountType;
@@ -23,6 +24,7 @@ class User {
     this.id,
     this.phoneNumber,
     this.username,
+    this.profileImage,
     this.password,
     this.accountType,
     this.favoriteBusinesses,

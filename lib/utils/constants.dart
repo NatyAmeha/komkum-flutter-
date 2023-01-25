@@ -15,4 +15,4 @@ class Constants {
   static const QUIZ_REWARD_NOTIFICATION = "QUIZ_REWARD";
 }
 
-enum TriviaLisType { HORIZONTAL, GRID, VERTICAL }
+enum ServiceListType { HORIZONTAL, GRID, VERTICAL }

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:komkum/model/user.dart';
 part 'review.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -10,18 +11,19 @@ class Review {
   String? businessName;
   String? service;
   String? business;
+  User? user;
   List<KeyReview>? keyPoints;
   DateTime? dateCreated;
 
-  Review({
-    this.id,
-    this.description,
-    this.serviceName,
-    this.business,
-    this.businessName,
-    this.service,
-    this.dateCreated,
-  });
+  Review(
+      {this.id,
+      this.description,
+      this.serviceName,
+      this.business,
+      this.businessName,
+      this.service,
+      this.dateCreated,
+      this.user});
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
   Map<String, dynamic> toJson() => _$ReviewToJson(this);
@@ -30,7 +32,7 @@ class Review {
 @JsonSerializable(explicitToJson: true)
 class KeyReview {
   String? key;
-  String? rating;
+  int? rating;
   KeyReview({this.key, this.rating});
 
   factory KeyReview.fromJson(Map<String, dynamic> json) =>
