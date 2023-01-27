@@ -46,7 +46,7 @@ class ReviewTile extends StatelessWidget {
                       textStyle: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 8),
-                    CustomRatingBar(ratingValue: finalRating.toInt())
+                    CustomRatingBar(ratingValue: finalRating)
                   ],
                 ),
               ),

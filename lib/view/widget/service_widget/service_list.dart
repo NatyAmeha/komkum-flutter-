@@ -28,19 +28,14 @@ class ServiceList extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: height,
-            child: GridView.builder(
+            child: ListView.builder(
               padding: const EdgeInsets.all(8),
               itemCount: services.length,
               scrollDirection: Axis.horizontal,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: width,
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 8),
               itemBuilder: (context, index) => HorizontalServiceListTile(
                 serviceInfo: services[index],
-                height: 200,
-                width: 150,
+                height: 150,
+                width: 250,
               ),
             ),
           ),

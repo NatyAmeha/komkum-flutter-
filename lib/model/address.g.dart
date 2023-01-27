@@ -23,7 +23,7 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
 GeoSpacial _$GeoSpacialFromJson(Map<String, dynamic> json) => GeoSpacial(
       type: json['type'] as String?,
       coordinates: (json['coordinates'] as List<dynamic>?)
-          ?.map((e) => e as int)
+          ?.map((e) => e as double)
           .toList(),
     );
 

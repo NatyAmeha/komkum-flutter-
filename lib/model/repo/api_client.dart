@@ -13,7 +13,7 @@ class ApiClient {
       return _dioClient!;
     } else {
       var dioOption = BaseOptions(
-        baseUrl: "http://api.komkum.com",
+        baseUrl: "http://192.168.8.119:3000",
         connectTimeout: 30000,
         receiveTimeout: 30000,
         sendTimeout: 30000,

@@ -14,7 +14,7 @@ class CustomBadge extends StatelessWidget {
     this.content,
     this.text,
     this.onclick,
-    this.badgeColor = Colors.grey,
+    this.badgeColor = Colors.transparent,
     this.borderColor = Colors.grey,
   });
 

@@ -5,10 +5,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:komkum/model/service.dart';
+import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/service_detail_screen.dart';
 import 'package:komkum/view/widget/custom_badge.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/image_carousel.dart';
+import 'package:komkum/view/widget/review_widget/custom_rating_bar.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
 class HorizontalServiceListTile extends StatelessWidget {
@@ -25,72 +28,91 @@ class HorizontalServiceListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var carouselController = CarouselController();
-    return CustomContainer(
-        child: Stack(
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ImageCarousel(
-              images: serviceInfo.service?.images ?? [],
-              controller: carouselController,
-              autoScroll: true,
-              height: height * 0.5,
-            ),
-            const SizedBox(height: 8),
-            CustomText(
-              serviceInfo.service?.name ?? "",
-              textStyle: Theme.of(context).textTheme.titleMedium,
-            ),
-            CustomText(
-              "150 Birr - 600 Birr",
-              textStyle: Theme.of(context).textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            CustomContainer(
-              height: 60,
-              width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+    return Card(
+      child: CustomContainer(
+          margin: 8,
+          padding: 0,
+          height: height,
+          width: width,
+          onTap: () {
+            UIHelper.goToScreen(context, "/service/${serviceInfo.service?.id}");
+          },
+          child: Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RatingBarIndicator(
-                    itemBuilder: (context, index) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    rating: 5,
-                    itemCount: 1,
-                    itemSize: 50,
+                  ImageCarousel(
+                    images: serviceInfo.service?.images ?? [],
+                    controller: carouselController,
+                    autoScroll: true,
+                    height: 150,
                   ),
-                  if (serviceInfo.service?.tags?.isNotEmpty == true)
-                    ...serviceInfo.service!.tags!.map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(e),
-                      ),
-                    )
+                  const SizedBox(height: 8),
+                  CustomText(
+                    serviceInfo.service?.name ?? "",
+                    maxLine: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textStyle: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  CustomText(
+                    "150 Birr - 600 Birr",
+                    textStyle: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  CustomContainer(
+                    padding: 0,
+                    height: 50,
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomText(
+                          "${serviceInfo.reviewInfo?.rating ?? 5}",
+                          textStyle: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        CustomRatingBar(starCount: 1, size: 20),
+                        // CustomBadge(
+                        //   text: "${serviceInfo.coupons?.length} coupons",
+                        //   borderColor: Colors.green,
+                        //   badgeColor: Colors.transparent,
+                        // ),
+                        CustomText(
+                          "${serviceInfo.reviewInfo?.count ?? 0} reviews",
+                          textStyle: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        // if (serviceInfo.service?.tags?.isNotEmpty == true)
+                        //   ...serviceInfo.service!.tags!.map(
+                        //     (e) => Padding(
+                        //       padding:
+                        //           const EdgeInsets.symmetric(horizontal: 8),
+                        //       child: Text(e),
+                        //     ),
+                        //   )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  CustomBadge(
+                    content: Row(
+                      children: [CustomText("Business name")],
+                    ),
+                  )
                 ],
               ),
-            ),
-            const SizedBox(height: 16),
-            CustomBadge(
-              content: Row(
-                children: [CustomText("Business name")],
-              ),
-            )
-          ],
-        ),
-        Positioned.fill(
-            left: 8,
-            top: 8,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: CustomBadge(
-                text: "${serviceInfo.coupons?.length} coupons",
-                badgeColor: Colors.redAccent,
-              ),
-            ))
-      ],
-    ));
+              Positioned.fill(
+                  left: 8,
+                  top: 8,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: CustomBadge(
+                      text: "${serviceInfo.coupons?.length} coupons",
+                      badgeColor: Colors.redAccent,
+                    ),
+                  ))
+            ],
+          )),
+    );
   }
 }

@@ -9,6 +9,7 @@ class ImageCarousel extends StatefulWidget {
   bool showIndicator;
   bool infiniteScroll;
   int initialPage;
+  double padding;
   CarouselController controller;
   List<Widget>? carouselItems;
   Function(int)? onPageChanged;
@@ -21,6 +22,7 @@ class ImageCarousel extends StatefulWidget {
     this.showIndicator = true,
     this.infiniteScroll = true,
     this.onPageChanged,
+    this.padding = 0,
     this.initialPage = 0,
     this.carouselItems,
   });
@@ -57,7 +59,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
               ? widget.images!
                   .map(
                     (e) => Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: widget.padding),
                       child: CustomImage(e,
                           fit: BoxFit.fill,
                           height: widget.height,

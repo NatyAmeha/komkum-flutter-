@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
+import 'package:komkum/view/widget/custom_text.dart';
 
 class ProductVariantListTile extends StatelessWidget {
   ProductVariant productVariant;
@@ -26,7 +27,10 @@ class ProductVariantListTile extends StatelessWidget {
           Expanded(
             child: Column(
               children: productVariant.moreInfo!.entries
-                  .map((info) => Text("${info.key} - ${info.value}"))
+                  .map((info) => CustomText(
+                        "${info.key} - ${info.value}",
+                        textStyle: Theme.of(context).textTheme.bodySmall,
+                      ))
                   .toList(),
             ),
           )

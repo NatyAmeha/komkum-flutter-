@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 
 class CategoryTile extends StatelessWidget {
@@ -15,9 +16,8 @@ class CategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[400],
-      width: width,
       height: height,
+      color: Colors.grey[400],
       child: Row(
         children: [
           Container(
@@ -25,11 +25,13 @@ class CategoryTile extends StatelessWidget {
             width: 10,
             color: color,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: CustomText(
-              category,
-              textStyle: Theme.of(context).textTheme.bodyMedium,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: CustomText(
+                category,
+                textStyle: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           )
         ],

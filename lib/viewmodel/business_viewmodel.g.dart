@@ -16,7 +16,7 @@ BusienssViewmodel _$BusienssViewmodelFromJson(Map<String, dynamic> json) =>
           : ReviewViewmodel.fromJson(
               json['reviewInfo'] as Map<String, dynamic>),
       relatedBusinesses: (json['relatedBusinesses'] as List<dynamic>?)
-          ?.map((e) => Business.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => BusienssViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
       isInUserFavorite: json['isInUserFavorite'] as bool?,
       coupons: (json['coupons'] as List<dynamic>?)

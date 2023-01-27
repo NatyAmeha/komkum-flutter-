@@ -11,7 +11,7 @@ part 'business_viewmodel.g.dart';
 class BusienssViewmodel {
   Business? businessInfo;
   ReviewViewmodel? reviewInfo;
-  List<Business>? relatedBusinesses;
+  List<BusienssViewmodel>? relatedBusinesses;
   bool? isInUserFavorite;
   List<CouponViewmodel>? coupons;
   List<ServiceViewmodel>? services;

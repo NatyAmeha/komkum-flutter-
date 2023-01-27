@@ -5,7 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CustomRatingBar extends StatelessWidget {
   bool enableRating;
-  int? ratingValue;
+  double? ratingValue;
   double size;
   int starCount;
   Function? onRatingUpdated;
@@ -34,8 +34,8 @@ class CustomRatingBar extends StatelessWidget {
           Icons.star,
           color: Colors.amber,
         ),
-        rating: 5,
-        itemCount: 1,
+        rating: ratingValue ?? 5.0,
+        itemCount: starCount,
         itemSize: size,
       );
     }

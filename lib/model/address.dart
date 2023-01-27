@@ -18,7 +18,7 @@ class Address {
 @JsonSerializable(explicitToJson: true)
 class GeoSpacial {
   String? type;
-  List<int>? coordinates;
+  List<double>? coordinates;
 
   GeoSpacial({
     this.type,

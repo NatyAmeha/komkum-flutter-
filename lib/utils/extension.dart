@@ -11,6 +11,7 @@ import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/review_viewmodel.dart';
+import 'package:komkum/viewmodel/service_viewmodel.dart';
 
 extension apiResponseconverter on dynamic {
   dynamic toObject(String className) {
@@ -48,6 +49,8 @@ extension apiResponseconverter on dynamic {
 
       case "ReviewViewmodel":
         return ReviewViewmodel.fromJson(this);
+      case "ServiceViewmodel":
+        return ServiceViewmodel.fromJson(this);
 
       case "String":
       case "bool":

@@ -5,7 +5,7 @@ part 'review_viewmodel.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ReviewViewmodel {
-  int? rating;
+  double? rating;
   int? count;
   List<Review>? reviews;
   List<KeyReview>? keyPoint;
