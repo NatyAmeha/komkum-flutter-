@@ -15,6 +15,7 @@ class Business {
   bool? featured;
 
   List<String>? services;
+  List<String>? servicesName;
   List<String>? coupons;
   List<String>? images;
   List<Address>? addresses;
@@ -32,6 +33,7 @@ class Business {
     this.verified,
     this.featured,
     this.services,
+    this.servicesName = const ["service name 1", "servce name 2"],
     this.coupons,
     this.images,
     this.addresses,

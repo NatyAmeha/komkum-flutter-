@@ -32,6 +32,7 @@ class BusinessTile extends StatelessWidget {
           width: width,
           height: height,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,16 +96,17 @@ class BusinessTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(height: 16),
-              if (businessInfo.services?.isNotEmpty == true)
-                ...businessInfo.services!
+              Divider(height: 16, thickness: 1),
+              if (businessInfo.businessInfo?.servicesName?.isNotEmpty == true)
+                ...businessInfo.businessInfo!.servicesName!
                     .map(
-                      (serviceViewmodel) => KeyPointWidget(
-                          text: serviceViewmodel.service?.name ?? ""),
+                      (name) => KeyPointWidget(text: name ?? ""),
                     )
                     .toList(),
-              if ((businessInfo.services?.length ?? 0) > 1)
-                KeyPointWidget(text: "+2 services")
+              if ((businessInfo.businessInfo?.servicesName?.length ?? 0) > 3)
+                KeyPointWidget(
+                    text:
+                        "${businessInfo.businessInfo!.servicesName!.length - 3} services"),
             ],
           )),
     );

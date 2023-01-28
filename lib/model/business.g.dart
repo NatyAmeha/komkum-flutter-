@@ -17,6 +17,10 @@ Business _$BusinessFromJson(Map<String, dynamic> json) => Business(
       services: (json['services'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      servicesName: (json['servicesName'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const ["service name 1", "servce name 2"],
       coupons:
           (json['coupons'] as List<dynamic>?)?.map((e) => e as String).toList(),
       images:
@@ -44,6 +48,7 @@ Map<String, dynamic> _$BusinessToJson(Business instance) => <String, dynamic>{
       'verified': instance.verified,
       'featured': instance.featured,
       'services': instance.services,
+      'servicesName': instance.servicesName,
       'coupons': instance.coupons,
       'images': instance.images,
       'addresses': instance.addresses?.map((e) => e.toJson()).toList(),

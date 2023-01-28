@@ -22,7 +22,7 @@ class Constants {
   static const QUIZ_REWARD_NOTIFICATION = "QUIZ_REWARD";
 }
 
-enum ServiceListType { HORIZONTAL, GRID, VERTICAL }
+enum ServiceListType { HORIZONTAL, GRID, VERTICAL, BUSINESS_SERVICES_LIST }
 
 enum ProductListType { GRID, HORIZONTAL }
 

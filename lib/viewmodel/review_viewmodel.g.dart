@@ -8,7 +8,7 @@ part of 'review_viewmodel.dart';
 
 ReviewViewmodel _$ReviewViewmodelFromJson(Map<String, dynamic> json) =>
     ReviewViewmodel(
-      rating: json['rating']?.toDouble() as double?,
+      rating: (json['rating'] as num?)?.toDouble(),
       count: json['count'] as int?,
       reviews: (json['reviews'] as List<dynamic>?)
           ?.map((e) => Review.fromJson(e as Map<String, dynamic>))

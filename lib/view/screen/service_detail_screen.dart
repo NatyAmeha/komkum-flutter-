@@ -130,6 +130,18 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                                   "${serviceController.serviceDetails?.serviceItems?.length} services")
                         ],
                       ),
+                      CustomContainer(
+                        padding: 0,
+                        color: Colors.grey,
+                        child: ListTile(
+                          title: CustomText(
+                            "${serviceController.serviceDetails?.serviceItems?.length} Products",
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios),
+                        ),
+                      ),
                       // show review info ----------------------------------------------
                       if (serviceController.serviceDetails?.reviewInfo?.reviews
                               ?.isNotEmpty ==

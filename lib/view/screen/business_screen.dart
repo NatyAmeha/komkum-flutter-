@@ -7,6 +7,7 @@ import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/widget/business_widget/business_list.dart';
 import 'package:komkum/view/widget/custom_button.dart';
+import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/image_carousel.dart';
 import 'package:komkum/view/widget/image_collection.dart';
@@ -59,7 +60,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 200,
                       child: ImageCollection(
                         images: businessController
@@ -77,7 +78,22 @@ class _BusinessScreenState extends State<BusinessScreen> {
                         fontSize: 28,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24)
+                  ],
+                ),
+              ),
+              if (businessController.businessDetails?.services?.isNotEmpty ==
+                  true)
+                ServiceList(
+                  services: businessController.businessDetails!.services!,
+                  height: 150,
+                  isSliver: true,
+                  listtype: ServiceListType.BUSINESS_SERVICES_LIST,
+                ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const Divider(height: 16, thickness: 1),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: CustomText(
@@ -129,15 +145,6 @@ class _BusinessScreenState extends State<BusinessScreen> {
                 CouponsList(
                     coupons: businessController.businessDetails!.coupons!)
               ],
-              if (businessController.businessDetails?.services?.isNotEmpty ==
-                  true) ...[
-                ListHeader("Available services"),
-                ServiceList(
-                  services: businessController.businessDetails!.services!,
-                  isSliver: true,
-                  height: 400,
-                )
-              ],
               if (businessController
                       .businessDetails?.relatedBusinesses?.isNotEmpty ==
                   true) ...[
@@ -146,6 +153,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                   businesses:
                       businessController.businessDetails!.relatedBusinesses!,
                   listType: BusinessListType.HORIZONTAL,
+                  height: 275,
                 )
               ]
             ],

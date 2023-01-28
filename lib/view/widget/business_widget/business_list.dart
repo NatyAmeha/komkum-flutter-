@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/widget/business_widget/business.tile.dart';
+import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/viewmodel/business_viewmodel.dart';
 
 class BusinessList extends StatelessWidget {
@@ -25,7 +26,9 @@ class BusinessList extends StatelessWidget {
       case BusinessListType.HORIZONTAL:
         if (isSliver) {
           return SliverToBoxAdapter(
-              child: Container(
+              child: CustomContainer(
+            margin: 8,
+            padding: 0,
             height: height,
             width: width,
             child: ListView.builder(

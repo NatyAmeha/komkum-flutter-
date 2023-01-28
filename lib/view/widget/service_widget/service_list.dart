@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:komkum/utils/constants.dart';
+import 'package:komkum/view/widget/service_widget/business_services_list_tile.dart';
 import 'package:komkum/view/widget/service_widget/horizontal_service_list_tile.dart';
 import 'package:komkum/view/widget/service_widget/vertical_service_list_tile.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
@@ -56,6 +57,36 @@ class ServiceList extends StatelessWidget {
             ),
           ),
         );
+      }
+    } else if (listtype == ServiceListType.BUSINESS_SERVICES_LIST) {
+      if (isSliver) {
+        return SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => BusinessServicesListTile(
+              serviceInfo: services[index],
+              height: height,
+            ),
+            childCount: services.length,
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisExtent: height,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8),
+        );
+      } else {
+        return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisExtent: height,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8),
+            itemBuilder: (context, index) => BusinessServicesListTile(
+                  serviceInfo: services[index],
+                  height: height,
+                ),
+            itemCount: services.length);
       }
     } else {
       if (isSliver) {
