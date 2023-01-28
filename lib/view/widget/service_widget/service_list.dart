@@ -13,13 +13,14 @@ class ServiceList extends StatelessWidget {
   bool isSliver;
   double width;
   double height;
-  ServiceList({
-    required this.services,
-    this.isSliver = false,
-    this.listtype = ServiceListType.HORIZONTAL,
-    this.height = 310,
-    this.width = 300,
-  });
+  int discount;
+  ServiceList(
+      {required this.services,
+      this.isSliver = false,
+      this.listtype = ServiceListType.HORIZONTAL,
+      this.height = 310,
+      this.width = 300,
+      this.discount = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class ServiceList extends StatelessWidget {
                 serviceInfo: services[index],
                 height: 150,
                 width: 250,
+                discount: discount,
               ),
             ),
           ),
@@ -54,6 +56,7 @@ class ServiceList extends StatelessWidget {
               serviceInfo: services[index],
               height: 200,
               width: 150,
+              discount: discount,
             ),
           ),
         );
@@ -65,6 +68,7 @@ class ServiceList extends StatelessWidget {
             (context, index) => BusinessServicesListTile(
               serviceInfo: services[index],
               height: height,
+              discount: discount,
             ),
             childCount: services.length,
           ),
@@ -85,6 +89,7 @@ class ServiceList extends StatelessWidget {
             itemBuilder: (context, index) => BusinessServicesListTile(
                   serviceInfo: services[index],
                   height: height,
+                  discount: discount,
                 ),
             itemCount: services.length);
       }
@@ -95,6 +100,7 @@ class ServiceList extends StatelessWidget {
           childCount: services.length,
           (context, index) => VerticalServiceListTile(
             serviceInfo: services[index],
+            discount: discount,
           ),
         ));
       } else {
@@ -102,6 +108,7 @@ class ServiceList extends StatelessWidget {
           itemCount: services.length,
           itemBuilder: (context, index) => VerticalServiceListTile(
             serviceInfo: services[index],
+            discount: discount,
           ),
         );
       }

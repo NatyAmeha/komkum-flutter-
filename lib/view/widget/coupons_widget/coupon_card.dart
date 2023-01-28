@@ -10,7 +10,8 @@ import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 
 class CouponCard extends StatelessWidget {
   List<CouponViewmodel> coupon;
-  CouponCard({required this.coupon});
+  double height;
+  CouponCard({required this.coupon, this.height = 175});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,10 @@ class CouponCard extends StatelessWidget {
     }
     if (remainingCoupons > 0 && couponRemainingTime > 0) {
       return Card(
+        margin: EdgeInsets.zero,
         child: CustomContainer(
+            height: height,
+            borderRadius: 0,
             color: Colors.blueGrey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

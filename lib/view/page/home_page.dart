@@ -80,7 +80,10 @@ class HomePage extends StatelessWidget {
               ],
               if (appController.browseResult?.products?.isNotEmpty == true) ...[
                 ListHeader("Recommended"),
-                ProductList(products: appController.browseResult!.products!)
+                ProductList(
+                  products: appController.browseResult!.products!,
+                  height: 320,
+                )
               ],
               ListHeader("Coupons"),
               SliverList(

@@ -11,8 +11,13 @@ class BusinessServicesListTile extends StatelessWidget {
   ServiceViewmodel serviceInfo;
   double height;
   double width;
-  BusinessServicesListTile(
-      {required this.serviceInfo, this.height = 100, this.width = 100});
+  int discount;
+  BusinessServicesListTile({
+    required this.serviceInfo,
+    this.height = 100,
+    this.width = 100,
+    this.discount = 0,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -18,12 +18,13 @@ class HorizontalServiceListTile extends StatelessWidget {
   ServiceViewmodel serviceInfo;
   double height;
   double width;
+  int discount;
 
-  HorizontalServiceListTile({
-    required this.serviceInfo,
-    required this.height,
-    required this.width,
-  });
+  HorizontalServiceListTile(
+      {required this.serviceInfo,
+      required this.height,
+      required this.width,
+      this.discount = 0});
 
   @override
   Widget build(BuildContext context) {

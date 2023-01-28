@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:komkum/utils/constants.dart';
+import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
 import 'package:komkum/view/widget/custom_text.dart';
@@ -22,6 +23,10 @@ class CouponTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+      onTap: () {
+        UIHelper.goToScreen(
+            context, "/coupon/${couponViewmodel.couponInfo?.id}");
+      },
       padding: 0,
       margin: 8,
       color: Colors.blueGrey,
@@ -31,12 +36,6 @@ class CouponTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // if ((couponViewmodel.couponInfo?.images?.length ?? 0) > 0)
-          //   CustomImage(
-          //     couponViewmodel.couponInfo?.images?[0],
-          //     width: 150,
-          //     height: height,
-          //   ),
           const SizedBox(width: 16),
           Expanded(
             child: Padding(

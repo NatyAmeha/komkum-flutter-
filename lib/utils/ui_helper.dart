@@ -7,7 +7,11 @@ import 'package:komkum/utils/exception.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
+import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/loading_progressbar.dart';
+import 'package:komkum/viewmodel/service_viewmodel.dart';
+
+import '../model/order.dart';
 
 class UIHelper {
   static const mainNavigatorKeyId = 10;
@@ -99,5 +103,82 @@ class UIHelper {
       context: context,
       builder: (context) => body,
     );
+  }
+
+  static PriceRange getServicePriceRange(ServiceViewmodel serviceInfo) {
+    var priceRanges = [];
+    serviceInfo.serviceItems?.forEach(
+      (product) {
+        if (product.fixedPrice != null) {
+          priceRanges.add(product.fixedPrice);
+        } else {
+          priceRanges.addAll([product.minPrice!, product.maxPrice]);
+        }
+      },
+    );
+    priceRanges.sort();
+    return PriceRange(min: priceRanges.first, max: priceRanges.last);
+  }
+
+  static Widget showPrice(BuildContext context,
+      {int? fixedPrice, int? minPrice, int? maxPrice, int discountAmount = 0}) {
+    if (fixedPrice != null) {
+      if (discountAmount > 0) {
+        var discountedPrice = fixedPrice - (fixedPrice * discountAmount) ~/ 100;
+        return Text.rich(
+          TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: "$fixedPrice Birr\n",
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  decoration: TextDecoration.lineThrough,
+                ),
+              ),
+              TextSpan(
+                text: "$discountedPrice Birr",
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return CustomText(
+          "$fixedPrice Birr",
+          textStyle: Theme.of(context).textTheme.titleMedium,
+          fontWeight: FontWeight.bold,
+        );
+      }
+    } else {
+      if (discountAmount > 0) {
+        var discountedMin = minPrice! - (minPrice * discountAmount) ~/ 100;
+        var discountedMax = maxPrice! - (maxPrice * discountAmount) ~/ 100;
+        return Text.rich(
+          TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: "$minPrice Birr - $maxPrice Birr\n",
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  decoration: TextDecoration.lineThrough,
+                ),
+              ),
+              TextSpan(
+                text: "$discountedMin Birr - $discountedMax Birr",
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return CustomText(
+          "$minPrice Birr - $maxPrice Birr",
+          textStyle: Theme.of(context).textTheme.titleMedium,
+          fontWeight: FontWeight.bold,
+        );
+      }
+    }
   }
 }

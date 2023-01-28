@@ -17,7 +17,7 @@ class Coupon {
   String? businessName;
   String? serviceName;
   String? business;
-  String? service;
+  List<String>? service;
   List<CouponCode>? couponCodes;
 
   bool? isActive;

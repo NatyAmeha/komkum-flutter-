@@ -12,7 +12,7 @@ CouponViewmodel _$CouponViewmodelFromJson(Map<String, dynamic> json) =>
           ? null
           : Coupon.fromJson(json['couponInfo'] as Map<String, dynamic>),
       services: (json['services'] as List<dynamic>?)
-          ?.map((e) => Service.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ServiceViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
       business: json['business'] == null
           ? null

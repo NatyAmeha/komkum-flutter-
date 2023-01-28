@@ -3,6 +3,7 @@ import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/page/home_page.dart';
 import 'package:komkum/view/screen/business_screen.dart';
+import 'package:komkum/view/screen/coupons_screen.dart';
 import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
@@ -51,6 +52,16 @@ class AppRoute {
 
           return businessId != null
               ? BusinessScreen(businessId: businessId)
+              : ErrorPage();
+        },
+      ),
+      GoRoute(
+        path: CouponScreen.routeName,
+        builder: (context, state) {
+          var couponId = state.params["id"];
+
+          return couponId != null
+              ? CouponScreen(couponId: couponId)
               : ErrorPage();
         },
       ),
