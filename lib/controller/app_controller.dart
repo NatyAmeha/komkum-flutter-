@@ -5,6 +5,7 @@ import 'package:komkum/model/user.dart';
 import 'package:komkum/usecase/browse_usecase.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/viewmodel/browse_viewmodel.dart';
+import 'package:komkum/viewmodel/search_viewmodel.dart';
 
 class AppController extends GetxController {
   var _isDataLoading = true.obs;
@@ -17,6 +18,7 @@ class AppController extends GetxController {
   User get loggedInUserResult => loggedInUser.value;
 
   BrowseViewmodel? browseResult;
+  SearchViewmodel? searchResult;
 
   var myPageStack = FirstAndLastPageStack(initialPage: 0);
 
@@ -41,6 +43,31 @@ class AppController extends GetxController {
       exception.action = () {
         _exception(AppException());
         getHomepage();
+      };
+      _exception(exception);
+    } finally {
+      _isDataLoading(false);
+    }
+  }
+
+  Future<SearchViewmodel?> search(String query,
+      {int page = 1, int pageSize = 100}) async {
+    try {
+      //remove any exception
+      print("search data");
+
+      var browseRepo = BrowseUsecase(browseRepo: ApiRepository());
+      var result =
+          await browseRepo.serach(query, page: page, pageSize: pageSize);
+      print("search data $result");
+      searchResult = result;
+      return searchResult;
+    } catch (ex) {
+      print("search exception ${ex.toString()}");
+      var exception = ex as AppException;
+      exception.action = () {
+        _exception(AppException());
+        search(query, page: page, pageSize: pageSize);
       };
       _exception(exception);
     } finally {
