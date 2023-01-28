@@ -4,15 +4,18 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/widget/service_widget/product_tile.dart';
+import 'package:komkum/viewmodel/product_viewmodel.dart';
 
 class ProductList extends StatelessWidget {
   bool isSliver;
-  List<Product> products;
+  List<Product>? products;
+  List<ProductViewmodel>? productViewmodels;
   ProductListType productListType;
   int discountAmount;
   double height;
   ProductList({
-    required this.products,
+    this.products,
+    this.productViewmodels,
     this.isSliver = true,
     this.productListType = ProductListType.GRID,
     this.height = 220,
@@ -26,8 +29,10 @@ class ProductList extends StatelessWidget {
         return Container(
           height: height,
           child: ListView.builder(
+            itemCount: productViewmodels?.length ?? products?.length,
             itemBuilder: (context, index) => ProductTile(
-              productInfo: products[index],
+              productInfo: productViewmodels?.elementAt(index).serviceItem ??
+                  products![index],
               height: height,
               discountAmount: discountAmount,
             ),
@@ -39,11 +44,12 @@ class ProductList extends StatelessWidget {
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (context, index) => ProductTile(
-                productInfo: products[index],
+                productInfo: productViewmodels?.elementAt(index).serviceItem ??
+                    products![index],
                 height: height,
                 discountAmount: discountAmount,
               ),
-              childCount: products.length,
+              childCount: productViewmodels?.length ?? products?.length,
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -59,11 +65,12 @@ class ProductList extends StatelessWidget {
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 8),
             itemBuilder: (context, index) => ProductTile(
-              productInfo: products[index],
+              productInfo: productViewmodels?.elementAt(index).serviceItem ??
+                  products![index],
               height: height,
               discountAmount: discountAmount,
             ),
-            itemCount: products.length,
+            itemCount: productViewmodels?.length ?? products?.length,
           );
         }
     }

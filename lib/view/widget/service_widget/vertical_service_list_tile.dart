@@ -25,7 +25,7 @@ class VerticalServiceListTile extends StatelessWidget {
   var carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
-    print("service discount amount $discount");
+    print("service discount amount $discount  ${serviceInfo.service?.name}");
     var servicePriceRange = UIHelper.getServicePriceRange(serviceInfo);
 
     return CustomContainer(
@@ -40,7 +40,7 @@ class VerticalServiceListTile extends StatelessWidget {
               child: Stack(
                 children: [
                   ImageCarousel(
-                    images: serviceInfo.service?.images ?? [],
+                    images: serviceInfo.service?.images ?? [""],
                     controller: carouselController,
                     height: height,
                   ),
@@ -70,15 +70,17 @@ class VerticalServiceListTile extends StatelessWidget {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      CustomText(
-                        "${serviceInfo.reviewInfo?.reviews?.length ?? 4.5}",
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      CustomRatingBar(
-                        ratingValue: serviceInfo.reviewInfo?.rating ?? 4.5,
-                        starCount: 1,
-                        size: 50,
-                      ),
+                      if (serviceInfo.reviewInfo?.rating != null) ...[
+                        CustomText(
+                          "${serviceInfo.reviewInfo?.rating ?? 4.5}",
+                          textStyle: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        CustomRatingBar(
+                          ratingValue: serviceInfo.reviewInfo?.rating ?? 4.5,
+                          starCount: 1,
+                          size: 50,
+                        ),
+                      ],
                       if (serviceInfo.service?.tags?.isNotEmpty == true)
                         ...serviceInfo.service!.tags!.map(
                           (e) => Padding(

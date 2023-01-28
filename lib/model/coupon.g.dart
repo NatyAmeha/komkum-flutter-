@@ -28,7 +28,8 @@ Coupon _$CouponFromJson(Map<String, dynamic> json) => Coupon(
       couponCodes: (json['couponCodes'] as List<dynamic>?)
           ?.map((e) => CouponCode.fromJson(e as Map<String, dynamic>))
           .toList(),
-      service: json['service'] as List<String>?,
+      service:
+          (json['service'] as List<dynamic>?)?.map((e) => e as String).toList(),
       isActive: json['isActive'] as bool?,
       dateCreated: json['dateCreated'] == null
           ? null

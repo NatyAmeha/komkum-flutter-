@@ -32,6 +32,7 @@ class BusinessTile extends StatelessWidget {
           width: width,
           height: height,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(

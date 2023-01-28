@@ -11,6 +11,7 @@ import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/review_viewmodel.dart';
+import 'package:komkum/viewmodel/search_viewmodel.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
 extension apiResponseconverter on dynamic {
@@ -51,6 +52,9 @@ extension apiResponseconverter on dynamic {
         return ReviewViewmodel.fromJson(this);
       case "ServiceViewmodel":
         return ServiceViewmodel.fromJson(this);
+
+      case "SearchViewmodel":
+        return SearchViewmodel.fromJson(this);
 
       case "String":
       case "bool":

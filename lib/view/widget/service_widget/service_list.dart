@@ -13,14 +13,14 @@ class ServiceList extends StatelessWidget {
   bool isSliver;
   double width;
   double height;
-  int discount;
+  int? discount;
   ServiceList(
       {required this.services,
       this.isSliver = false,
       this.listtype = ServiceListType.HORIZONTAL,
       this.height = 310,
       this.width = 300,
-      this.discount = 0});
+      this.discount});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,9 @@ class ServiceList extends StatelessWidget {
                 serviceInfo: services[index],
                 height: 150,
                 width: 250,
-                discount: discount,
+                discount: discount ??
+                    services[index].coupons?.first.couponInfo?.discountAmount ??
+                    0,
               ),
             ),
           ),
@@ -56,7 +58,9 @@ class ServiceList extends StatelessWidget {
               serviceInfo: services[index],
               height: 200,
               width: 150,
-              discount: discount,
+              discount: discount ??
+                  services[index].coupons?.first.couponInfo?.discountAmount ??
+                  0,
             ),
           ),
         );
@@ -68,7 +72,9 @@ class ServiceList extends StatelessWidget {
             (context, index) => BusinessServicesListTile(
               serviceInfo: services[index],
               height: height,
-              discount: discount,
+              discount: discount ??
+                  services[index].coupons?.first.couponInfo?.discountAmount ??
+                  0,
             ),
             childCount: services.length,
           ),
@@ -89,7 +95,13 @@ class ServiceList extends StatelessWidget {
             itemBuilder: (context, index) => BusinessServicesListTile(
                   serviceInfo: services[index],
                   height: height,
-                  discount: discount,
+                  discount: discount ??
+                      services[index]
+                          .coupons
+                          ?.first
+                          .couponInfo
+                          ?.discountAmount ??
+                      0,
                 ),
             itemCount: services.length);
       }
@@ -100,16 +112,21 @@ class ServiceList extends StatelessWidget {
           childCount: services.length,
           (context, index) => VerticalServiceListTile(
             serviceInfo: services[index],
-            discount: discount,
+            discount: discount ??
+                services[index].coupons?.first.couponInfo?.discountAmount ??
+                0,
           ),
         ));
       } else {
         return ListView.builder(
-          itemCount: services.length,
           itemBuilder: (context, index) => VerticalServiceListTile(
             serviceInfo: services[index],
-            discount: discount,
+            discount: discount ??
+                services[index].coupons?.first.couponInfo?.discountAmount ??
+                0,
+            height: height,
           ),
+          itemCount: services.length,
         );
       }
       // } else {

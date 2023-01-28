@@ -1,75 +1,74 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/widget/business_widget/business_list.dart';
+import 'package:komkum/view/widget/coupons_widget/coupon_list.dart';
 import 'package:komkum/view/widget/loading_progressbar.dart';
+import 'package:komkum/view/widget/service_widget/product_list.dart';
+import 'package:komkum/view/widget/service_widget/service_list.dart';
+import 'package:komkum/viewmodel/search_viewmodel.dart';
 
-class SearchScreen extends StatefulWidget {
-  var appController = Get.find<AppController>();
-  String query;
-  SearchScreen({required this.query});
-
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen>
-    with SingleTickerProviderStateMixin {
-  late final _tabController = TabController(length: 4, vsync: this);
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
+class SearchScreen extends StatelessWidget {
+  SearchViewmodel serachResult;
+  SearchScreen({required this.serachResult});
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(Duration.zero, () {
-    //   if (widget.appController.searhResult == null) {
-    //     widget.appController.getSearchResult(widget.query);
-    //   }
-    // });
-
-    return Obx(
-      () => UIHelper.displayContent(
-        showWhen: true,
-        exception: widget.appController.exception,
-        isDataLoading: widget.appController.isDataLoading,
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TabBar(
-              labelColor: Theme.of(context).colorScheme.primary,
-              unselectedLabelColor: Colors.grey[400],
-              controller: _tabController,
-              isScrollable: true,
-              tabs: [
-                Tab(text: "Services"),
-                Tab(text: "Businesses"),
-                Tab(text: "Coupons"),
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TabBar(
+            labelColor: Theme.of(context).colorScheme.primary,
+            unselectedLabelColor: Colors.grey[400],
+            isScrollable: true,
+            tabs: const [
+              Tab(text: "Products"),
+              Tab(text: "Services"),
+              Tab(text: "Businesses"),
+              // Tab(text: "Coupons"),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                Expanded(
+                  child: ProductList(
+                    productViewmodels: serachResult!.products!,
+                    isSliver: false,
+                    height: 320,
+                  ),
+                ),
+                Expanded(
+                    child: ServiceList(
+                  services: serachResult.services!,
+                  listtype: ServiceListType.VERTICAL,
+                  isSliver: false,
+                  height: 200,
+                )),
+                Expanded(
+                    child: BusinessList(
+                  businesses: serachResult.businesses!,
+                  listType: BusinessListType.VERTICAL,
+                  height: 250,
+                  width: double.infinity,
+                  isSliver: false,
+                )),
+                // Expanded(
+                //     child: CouponList(
+                //   coupons: searchResult!.coupons!,
+                // )),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  Expanded(child: Container()),
-                  Expanded(child: Container()),
-                  Expanded(child: Container()),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -104,18 +103,25 @@ class CustomSearchDeligate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 3)),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LoadingProgressbar(loadingState: true);
-        } else if (snapshot.hasData) {
-          return Container();
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
+    print("data is called");
+    if (appController.searchResult != null) {
+      return SearchScreen(serachResult: appController.searchResult!);
+    } else {
+      return FutureBuilder<SearchViewmodel?>(
+        future: appController.search(query),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingProgressbar(loadingState: true);
+          } else if (snapshot.hasData) {
+            print("data is ${snapshot.data?.services}");
+            var searchResult = snapshot.data;
+            return SearchScreen(serachResult: searchResult!);
+          } else {
+            return Text("ERror occured ${snapshot.error.toString()}");
+          }
+        },
+      );
+    }
 
     // return SearchScreen(query: query);
   }

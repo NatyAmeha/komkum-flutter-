@@ -166,11 +166,8 @@ class ProductDetailScreen extends StatelessWidget {
                   ListHeader("Related products"),
                   SliverToBoxAdapter(
                     child: ProductList(
-                      products: productController
-                          .productDetail!.relatedServiceItems!
-                          .map((e) => e.serviceItem!)
-                          .toList(),
-                    ),
+                        productViewmodels: productController
+                            .productDetail!.relatedServiceItems!),
                   )
                 ]
               ],

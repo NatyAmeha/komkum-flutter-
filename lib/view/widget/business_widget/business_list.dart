@@ -31,13 +31,17 @@ class BusinessList extends StatelessWidget {
             padding: 0,
             height: height,
             width: width,
-            child: ListView.builder(
-              itemCount: businesses.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => BusinessTile(
-                businessInfo: businesses[index],
-                width: width,
-                height: height,
+            child: Container(
+              width: width,
+              height: height,
+              child: ListView.builder(
+                itemCount: businesses.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => BusinessTile(
+                  businessInfo: businesses[index],
+                  width: width,
+                  height: height,
+                ),
               ),
             ),
           ));
@@ -67,7 +71,6 @@ class BusinessList extends StatelessWidget {
         } else {
           return ListView.builder(
             itemCount: businesses.length,
-            scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => BusinessTile(
               businessInfo: businesses[index],
               width: width,

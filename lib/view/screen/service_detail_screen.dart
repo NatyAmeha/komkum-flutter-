@@ -139,7 +139,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                             textStyle: Theme.of(context).textTheme.titleMedium,
                             fontWeight: FontWeight.bold,
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios),
+                          trailing: const Icon(Icons.arrow_forward_ios),
                         ),
                       ),
                       // show review info ----------------------------------------------
