@@ -3,12 +3,14 @@ import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/page/home_page.dart';
 import 'package:komkum/view/screen/business_screen.dart';
+import 'package:komkum/view/screen/coupon_list_screen.dart';
 import 'package:komkum/view/screen/coupons_screen.dart';
 import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
 import 'package:komkum/view/screen/service_detail_screen.dart';
+import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 
 class AppRoute {
   static var routes = GoRouter(
@@ -65,6 +67,13 @@ class AppRoute {
               : ErrorPage();
         },
       ),
+      GoRoute(
+          path: CouponListScreen.routeName,
+          builder: (context, state) {
+            var args = state.extra as Map<String, dynamic>;
+            var coupons = args["coupons"] as List<CouponViewmodel>?;
+            return CouponListScreen(coupons: coupons);
+          }),
     ],
   );
 }

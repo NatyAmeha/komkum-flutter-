@@ -67,7 +67,9 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               ListHeader("Quick Access"),
-              SliverToBoxAdapter(child: QuickAccessMenu()),
+              SliverToBoxAdapter(
+                  child:
+                      QuickAccessMenu(browseINfo: appController.browseResult)),
               if (appController.browseResult?.featuredServices?.isNotEmpty ==
                   true) ...[
                 ListHeader("Featured services"),
@@ -85,16 +87,6 @@ class HomePage extends StatelessWidget {
                   height: 320,
                 )
               ],
-              ListHeader("Coupons"),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => CouponTile(
-                    couponViewmodel: couponViewmode,
-                    height: 200,
-                  ),
-                  childCount: 4,
-                ),
-              )
             ],
           ),
         ));

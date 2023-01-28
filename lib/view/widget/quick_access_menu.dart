@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/coupon_list_screen.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
+import 'package:komkum/viewmodel/browse_viewmodel.dart';
 
 class QuickAccessMenu extends StatelessWidget {
-  const QuickAccessMenu({super.key});
+  BrowseViewmodel? browseINfo;
+  QuickAccessMenu({required this.browseINfo});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,13 @@ class QuickAccessMenu extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
             mainAxisCellCount: 3,
-            child: Container(
+            child: CustomContainer(
+              onTap: () {
+                UIHelper.goToScreen(context, CouponListScreen.routeName,
+                    extra: {"coupons": browseINfo?.coupons});
+              },
+              padding: 0,
+              borderRadius: 16,
               color: Colors.amber,
               height: 50,
               alignment: Alignment.center,

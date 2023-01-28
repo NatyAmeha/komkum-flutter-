@@ -39,6 +39,7 @@ class ApiRepository<T> implements IRepositroy<T> {
       {Map<String, dynamic>? queryParameters}) async {
     try {
       var result = await dioClient.get(path, queryParameters: queryParameters);
+      print("api result $result");
       var mapResult = result.data as Map<String, dynamic>;
       var finalResult = await mapResult.toObject(R.toString());
       return finalResult as R?;
