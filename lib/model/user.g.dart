@@ -31,6 +31,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       favoriteProducts: (json['favoriteProducts'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      fcmToken: (json['fcmToken'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -45,6 +48,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'dateCreate': instance.dateCreate?.toIso8601String(),
       'orders': instance.orders,
       'addresses': instance.addresses?.map((e) => e.toJson()).toList(),
+      'fcmToken': instance.fcmToken,
       'userBusinesses': instance.userBusinesses,
       'favoriteProducts': instance.favoriteProducts,
     };

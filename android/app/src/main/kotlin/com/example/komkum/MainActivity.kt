@@ -1,4 +1,4 @@
-package com.example.komkum
+package com.savvy.komkum
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,8 +1,10 @@
 import 'package:bottom_nav_layout/bottom_nav_layout.dart';
 import 'package:get/get.dart';
 import 'package:komkum/model/repo/api_repository.dart';
+import 'package:komkum/model/repo/shared_pref_repo.dart';
 import 'package:komkum/model/user.dart';
 import 'package:komkum/usecase/browse_usecase.dart';
+import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/viewmodel/browse_viewmodel.dart';
 import 'package:komkum/viewmodel/search_viewmodel.dart';
@@ -73,5 +75,15 @@ class AppController extends GetxController {
     } finally {
       _isDataLoading(false);
     }
+  }
+
+  logout() async {
+    var sharedPrefRepo = SharedPreferenceRepository();
+    sharedPrefRepo.delete(Constants.TOKEN);
+    await sharedPrefRepo.delete(Constants.USERNAME);
+    await sharedPrefRepo.delete(Constants.USER_ID);
+    // await sharedPrefRepo.delete(Constants.TOKEN);
+
+    loggedInUser(User());
   }
 }

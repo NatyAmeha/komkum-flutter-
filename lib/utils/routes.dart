@@ -11,6 +11,7 @@ import 'package:komkum/view/screen/product_detail_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
 import 'package:komkum/view/screen/review_list_screen.dart';
 import 'package:komkum/view/screen/service_detail_screen.dart';
+import 'package:komkum/view/screen/verification_screen.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 
 class AppRoute {
@@ -37,6 +38,20 @@ class AppRoute {
       GoRoute(
         path: RegistrationScreen.routeName,
         builder: (context, state) => RegistrationScreen(),
+      ),
+      GoRoute(
+        // parentNavigatorKey: _rootNavigatorKey,
+        path: VerificationScreen.routeName,
+        name: VerificationScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var verificactionId = args["verificationId"] as String;
+          var isloggedinBefore = args["isLoggedinBefore"] as bool;
+          print("route variables $verificactionId $isloggedinBefore");
+          return VerificationScreen(
+              verificationId: verificactionId,
+              isLoggedinBefore: isloggedinBefore);
+        },
       ),
       GoRoute(
         path: ProductDetailScreen.routeName,

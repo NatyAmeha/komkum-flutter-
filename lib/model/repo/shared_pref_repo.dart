@@ -126,6 +126,7 @@ class SharedPreferenceRepository<T> implements ISharedPrefRepository<T> {
   @override
   Future<bool> saveUserInfo(User userInfo, String token) async {
     try {
+      print("pref result $userInfo");
       var tokenSaveREsult = await create<bool, String>(Constants.TOKEN, token);
       var loginState = await create<bool, bool>(Constants.LOGGED_IN, true);
       var userNameSave =
@@ -134,7 +135,7 @@ class SharedPreferenceRepository<T> implements ISharedPrefRepository<T> {
         var PhoneSave = await create<bool, String>(
             Constants.PHONE_NUMBER, userInfo.phoneNumber!);
       }
-
+      print("pref phone number");
       var userIdSave =
           await create<bool, String>(Constants.USER_ID, userInfo.id!);
       var r = await create<bool, bool>(Constants.REGISTERED, true);
