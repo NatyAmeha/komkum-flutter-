@@ -63,9 +63,17 @@ class UIHelper {
     String destination = location;
 
     if (resetBackstack) {
-      context.go(location, extra: extra);
+      if (queryParam != null) {
+        context.goNamed(location, extra: extra, queryParams: queryParam);
+      } else {
+        context.go(location, extra: extra);
+      }
     } else {
-      context.push(location, extra: extra);
+      if (queryParam != null) {
+        context.pushNamed(location, extra: extra, queryParams: queryParam);
+      } else {
+        context.push(location, extra: extra);
+      }
     }
   }
 

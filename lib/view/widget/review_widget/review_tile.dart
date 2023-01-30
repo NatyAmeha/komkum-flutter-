@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:komkum/model/review.dart';
 import 'package:komkum/view/widget/custom_badge.dart';
+import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/review_widget/custom_rating_bar.dart';
 
@@ -21,7 +22,7 @@ class ReviewTile extends StatelessWidget {
             .sum((p0) => p0) ??
         0;
     var finalRating = totalRating / (reviewInfo.keyPoints?.length ?? 0);
-    return Container(
+    return CustomContainer(
       child: Column(
         children: [
           Row(
@@ -42,40 +43,47 @@ class ReviewTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      "${reviewInfo.user?.username} ",
+                      "${reviewInfo.user?.username ?? 'Natnael Ameha'} ",
                       textStyle: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 8),
-                    CustomRatingBar(ratingValue: finalRating)
+                    CustomRatingBar(ratingValue: finalRating, size: 20)
                   ],
                 ),
               ),
               CustomText(
                 "${DateFormat.yMd().format(reviewInfo.dateCreated!)}",
-                textStyle: Theme.of(context).textTheme.bodySmall,
+                textStyle: Theme.of(context).textTheme.bodyMedium,
               )
             ],
           ),
           const SizedBox(height: 16),
           CustomText(
             "${reviewInfo.description}",
-            textStyle: Theme.of(context).textTheme.bodyMedium,
+            textStyle: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 8),
           if (reviewInfo.keyPoints?.isNotEmpty == true)
-            Container(
-              height: 80,
+            SizedBox(
+              height: 50,
               width: double.infinity,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: reviewInfo.keyPoints!
-                    .map((review) => CustomBadge(
-                          content:
-                              CustomText("${review.key}   ${review.rating}"),
+                    .map((review) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Chip(
+                              avatar: CircleAvatar(
+                                  child: CustomText("${review.rating}")),
+                              backgroundColor: Colors.grey[60],
+                              label: CustomText("${review.key}"),
+                              shadowColor: Colors.grey[400],
+                              padding: const EdgeInsets.all(8.0)),
                         ))
                     .toList(),
               ),
-            )
+            ),
+          const Divider(thickness: 1, height: 16),
         ],
       ),
     );

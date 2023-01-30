@@ -104,6 +104,16 @@ class _BusinessScreenState extends State<BusinessScreen> {
                     const Divider(height: 24),
                     if (businessController.businessDetails?.reviewInfo != null)
                       ListTile(
+                        onTap: () {
+                          UIHelper.goToScreen(context, "/reviews", queryParam: {
+                            "id":
+                                "${businessController.businessDetails?.businessInfo?.id}"
+                          }, extra: {
+                            "name": businessController
+                                .businessDetails?.businessInfo?.name,
+                            "type": ReviewDataType.BUSINESSS_REVIEW,
+                          });
+                        },
                         title: CustomText(
                           "Rating",
                           textStyle: Theme.of(context).textTheme.titleMedium,

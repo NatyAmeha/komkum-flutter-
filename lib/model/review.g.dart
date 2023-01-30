@@ -38,9 +38,11 @@ Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
 KeyReview _$KeyReviewFromJson(Map<String, dynamic> json) => KeyReview(
       key: json['key'] as String?,
       rating: json['rating'] as int?,
+      count: json['count'] as int?,
     );
 
 Map<String, dynamic> _$KeyReviewToJson(KeyReview instance) => <String, dynamic>{
       'key': instance.key,
       'rating': instance.rating,
+      'count': instance.count,
     };

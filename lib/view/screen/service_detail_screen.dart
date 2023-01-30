@@ -145,10 +145,29 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       // show review info ----------------------------------------------
                       if (serviceController.serviceDetails?.reviewInfo?.reviews
                               ?.isNotEmpty ==
-                          true)
+                          true) ...[
+                        ListHeader(
+                          "Rating and reviews",
+                          startPadding: 0,
+                          showMore: true,
+                          isSliver: false,
+                          onClick: () {
+                            UIHelper.goToScreen(context, "/reviews",
+                                queryParam: {
+                                  "id":
+                                      "${serviceController.serviceDetails?.service?.id}"
+                                },
+                                extra: {
+                                  "name": serviceController
+                                      .serviceDetails?.service?.name,
+                                  "type": ReviewDataType.SERVCIE_REVIEW,
+                                });
+                          },
+                        ),
                         ReviewInfo(
                             reviewViewmodel:
                                 serviceController.serviceDetails!.reviewInfo!),
+                      ],
 
                       if (serviceController
                               .serviceDetails?.coupons?.isNotEmpty ==

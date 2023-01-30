@@ -20,6 +20,9 @@ ProductViewmodel _$ProductViewmodelFromJson(Map<String, dynamic> json) =>
       relatedServiceItems: (json['relatedServiceItems'] as List<dynamic>?)
           ?.map((e) => ProductViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      couponsInfo: (json['couponsInfo'] as List<dynamic>?)
+          ?.map((e) => CouponViewmodel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ProductViewmodelToJson(ProductViewmodel instance) =>
@@ -29,4 +32,5 @@ Map<String, dynamic> _$ProductViewmodelToJson(ProductViewmodel instance) =>
       'businessInfo': instance.businessInfo?.toJson(),
       'relatedServiceItems':
           instance.relatedServiceItems?.map((e) => e.toJson()).toList(),
+      'couponsInfo': instance.couponsInfo?.map((e) => e.toJson()).toList(),
     };

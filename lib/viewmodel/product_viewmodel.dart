@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/business.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/model/service.dart';
+import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 part 'product_viewmodel.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -10,12 +11,15 @@ class ProductViewmodel {
   Service? serviceInfo;
   Business? businessInfo;
   List<ProductViewmodel>? relatedServiceItems;
+  List<CouponViewmodel>? couponsInfo;
 
-  ProductViewmodel(
-      {this.serviceItem,
-      this.serviceInfo,
-      this.businessInfo,
-      this.relatedServiceItems});
+  ProductViewmodel({
+    this.serviceItem,
+    this.serviceInfo,
+    this.businessInfo,
+    this.relatedServiceItems,
+    this.couponsInfo,
+  });
 
   factory ProductViewmodel.fromJson(Map<String, dynamic> json) =>
       _$ProductViewmodelFromJson(json);

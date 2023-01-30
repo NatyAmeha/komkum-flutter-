@@ -9,6 +9,7 @@ import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
+import 'package:komkum/view/screen/review_list_screen.dart';
 import 'package:komkum/view/screen/service_detail_screen.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 
@@ -68,12 +69,30 @@ class AppRoute {
         },
       ),
       GoRoute(
-          path: CouponListScreen.routeName,
-          builder: (context, state) {
-            var args = state.extra as Map<String, dynamic>;
-            var coupons = args["coupons"] as List<CouponViewmodel>?;
-            return CouponListScreen(coupons: coupons);
-          }),
+        path: CouponListScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var coupons = args["coupons"] as List<CouponViewmodel>?;
+          return CouponListScreen(coupons: coupons);
+        },
+      ),
+      GoRoute(
+        name: ReviewListScreen.routeName,
+        path: ReviewListScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var reviewType = args["type"] as ReviewDataType? ??
+              ReviewDataType.BUSINESSS_REVIEW;
+          var name = args["name"] as String;
+          var id = state.queryParams["id"];
+          print("review id $id");
+          return ReviewListScreen(
+            name: name,
+            reviewType: reviewType,
+            id: id,
+          );
+        },
+      ),
     ],
   );
 }

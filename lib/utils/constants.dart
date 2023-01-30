@@ -28,6 +28,8 @@ enum ProductListType { GRID, HORIZONTAL }
 
 enum BusinessListType { HORIZONTAL, VERTICAL }
 
+enum ReviewDataType { BUSINESSS_REVIEW, SERVCIE_REVIEW }
+
 var serviceINfo = Service(
     name: "Room Service",
     tags: ["tag1 ", "tag2 "],

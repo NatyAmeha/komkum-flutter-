@@ -33,7 +33,8 @@ class Review {
 class KeyReview {
   String? key;
   int? rating;
-  KeyReview({this.key, this.rating});
+  int? count;
+  KeyReview({this.key, this.rating, this.count});
 
   factory KeyReview.fromJson(Map<String, dynamic> json) =>
       _$KeyReviewFromJson(json);
