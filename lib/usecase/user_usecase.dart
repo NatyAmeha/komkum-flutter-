@@ -49,7 +49,7 @@ class UserUsecase {
   }
 
   Future<UserViewmodel?> getUserInfo() async {
-    var userREsult = await userRepo!.get<UserViewmodel>("/userinfo");
+    var userREsult = await userRepo!.get<UserViewmodel>("/user/account");
     return userREsult;
   }
 

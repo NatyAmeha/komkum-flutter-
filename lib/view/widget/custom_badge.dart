@@ -9,14 +9,15 @@ class CustomBadge extends StatelessWidget {
   Function? onclick;
   Color badgeColor;
   Color borderColor;
+  double borderRadius;
   String? text;
-  CustomBadge({
-    this.content,
-    this.text,
-    this.onclick,
-    this.badgeColor = Colors.transparent,
-    this.borderColor = Colors.grey,
-  });
+  CustomBadge(
+      {this.content,
+      this.text,
+      this.onclick,
+      this.badgeColor = Colors.transparent,
+      this.borderColor = Colors.grey,
+      this.borderRadius = 8});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class CustomBadge extends StatelessWidget {
       animationDuration: Duration.zero,
       shape: BadgeShape.square,
       padding: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(borderRadius),
     );
   }
 }

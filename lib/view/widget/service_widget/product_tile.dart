@@ -34,10 +34,29 @@ class ProductTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomImage(
-                productInfo.images?.first,
-                width: double.infinity,
-                height: 160,
+              Stack(
+                children: [
+                  CustomImage(
+                    productInfo.images?.first,
+                    width: double.infinity,
+                    height: 160,
+                  ),
+                  if (discountAmount > 0)
+                    Positioned(
+                        child: Align(
+                      alignment: Alignment.topLeft,
+                      child: CustomBadge(
+                        borderColor: Colors.green,
+                        badgeColor: Colors.green,
+                        borderRadius: 0,
+                        content: CustomText(
+                          "${discountAmount}% Off",
+                          textStyle: Theme.of(context).textTheme.caption,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ))
+                ],
               ),
               const SizedBox(height: 4),
               CustomText(

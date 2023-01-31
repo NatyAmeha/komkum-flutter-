@@ -36,7 +36,8 @@ class CouponCard extends StatelessWidget {
         margin: EdgeInsets.zero,
         child: CustomContainer(
             height: height,
-            borderRadius: 0,
+            borderRadius: 16,
+            borderColor: Colors.transparent,
             color: Colors.blueGrey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

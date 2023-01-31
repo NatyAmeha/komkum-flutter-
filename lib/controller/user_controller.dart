@@ -58,8 +58,13 @@ class UserController extends GetxController {
       } else {
         // phone is auto verified
         _isDataLoading(true);
-        await signupWithPhone(true);
-        UIHelper.goToScreen(context, HomeScreen.routeName);
+        var isAuthenticated = await signupWithPhone(true);
+        if (isAuthenticated) {
+          UIHelper.goToScreen(context, HomeScreen.routeName);
+        } else {
+          UIHelper.showToast(
+              context, "Unable to authenticate this phone number.");
+        }
       }
     } catch (ex) {
       print(ex.toString());
@@ -93,9 +98,10 @@ class UserController extends GetxController {
             UIHelper.goToScreen(context, HomeScreen.routeName,
                 resetBackstack: false);
           }
+        } else {
+          UIHelper.showToast(
+              context, "Error occured, unable to authenticate your phone");
         }
-        UIHelper.showToast(
-            context, "Error occured, unable to authenticate your phone");
       } else {
         UIHelper.showToast(context, "Input is not correct");
       }
@@ -121,13 +127,12 @@ class UserController extends GetxController {
           await userUsecase.registerOrAuthenticatewithPhone(userInfo!);
 
       // var tokenSaveResult = await userUsecase.registerFCMToken();
-      print("token save result $userResult");
+      print("token save result ${userResult.id}");
       appController.loggedInUser(userResult);
       return true;
     } catch (ex) {
       print("auth error ${ex.toString()}");
       rethrow;
-      return false;
     } finally {
       _isDataLoading(false);
     }

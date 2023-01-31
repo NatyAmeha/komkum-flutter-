@@ -1,29 +1,178 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/controller/user_controller.dart';
 import 'package:komkum/utils/ui_helper.dart';
-import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/widget/custom_button.dart';
+import 'package:komkum/view/widget/custom_container.dart';
+import 'package:komkum/view/widget/custom_text.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   static const routeName = "/account";
-  var appController = Get.find<AppController>();
+
   AccountPage({super.key});
 
   @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  var userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      userController.getUserInfo(context);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-          child: CustomButton(
-        "${appController.loggedInUserResult.username}",
-        onPressed: () {
-          UIHelper.moveToLoginOrRegister(context,
-              redirectTo: HomeScreen.routeName);
-        },
-      )),
+    return Scaffold(
+      appBar: AppBar(
+        title:
+            Text("${userController.appController.loggedInUserResult.username}"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications),
+          ),
+        ],
+      ),
+      body: Obx(
+        () => UIHelper.displayContent(
+          showWhen: userController.userGeneralINfo != null,
+          exception: userController.exception,
+          isDataLoading: userController.isDataLoading,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.account_circle, size: 50),
+                        title: userController.appController.loggedInUserResult
+                                    .username ==
+                                null
+                            ? TextButton(
+                                child: CustomText("Register or Sign in"),
+                                onPressed: () {
+                                  UIHelper.moveToLoginOrRegister(context);
+                                },
+                              )
+                            : CustomText(
+                                userController
+                                    .appController.loggedInUserResult.username!,
+                                textStyle:
+                                    Theme.of(context).textTheme.titleLarge,
+                              ),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                      ),
+                      const SizedBox(height: 8),
+                      CustomContainer(
+                        color: Colors.green[200],
+                        padding: 8,
+                        margin: 16,
+                        child: ListTile(
+                          title: CustomText(
+                            "Your balance",
+                            textStyle: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          subtitle: CustomText(
+                            "16 Birr",
+                            textStyle: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          isThreeLine: false,
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.badge),
+                        title: CustomText(
+                          "My orders",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.location_on_outlined),
+                        title: CustomText(
+                          "My Shipping addresses",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.reviews_outlined),
+                        title: CustomText(
+                          "My reviews",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.business_outlined),
+                        title: CustomText(
+                          "My Favorite businesses",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.favorite_outline),
+                        title: CustomText(
+                          "My favorite products",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.badge),
+                        title: CustomText(
+                          "Feedback",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.settings_outlined),
+                        title: CustomText(
+                          "Settings",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.info_outline),
+                        title: CustomText(
+                          "About",
+                          textStyle: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
