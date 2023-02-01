@@ -8,6 +8,7 @@ import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/screen/business_list_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
+import 'package:komkum/view/screen/order_list_screen.dart';
 import 'package:komkum/view/screen/product_list_screen.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_container.dart';
@@ -108,6 +109,12 @@ class _AccountPageState extends State<AccountPage> {
                   child: Column(
                     children: [
                       ListTile(
+                        onTap: () {
+                          UIHelper.goToScreen(
+                            context,
+                            OrderListScreen.routeName,
+                          );
+                        },
                         leading: const Icon(Icons.badge),
                         title: CustomText(
                           "My orders",
@@ -115,7 +122,7 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                       ),
                       ListTile(
-                        leading: Icon(Icons.location_on_outlined),
+                        leading: const Icon(Icons.location_on_outlined),
                         title: CustomText(
                           "My Shipping addresses",
                           textStyle: Theme.of(context).textTheme.titleSmall,

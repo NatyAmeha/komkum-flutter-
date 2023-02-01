@@ -17,7 +17,9 @@ UserViewmodel _$UserViewmodelFromJson(Map<String, dynamic> json) =>
       favoriteProducts: (json['favoriteProducts'] as List<dynamic>?)
           ?.map((e) => ProductViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..orders = (json['orders'] as List<dynamic>?)
+        ?.map((e) => OrderViewmodel.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$UserViewmodelToJson(UserViewmodel instance) =>
     <String, dynamic>{
@@ -26,4 +28,5 @@ Map<String, dynamic> _$UserViewmodelToJson(UserViewmodel instance) =>
           instance.favoriteBusinesses?.map((e) => e.toJson()).toList(),
       'favoriteProducts':
           instance.favoriteProducts?.map((e) => e.toJson()).toList(),
+      'orders': instance.orders?.map((e) => e.toJson()).toList(),
     };

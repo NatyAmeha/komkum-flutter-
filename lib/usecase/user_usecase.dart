@@ -65,6 +65,11 @@ class UserUsecase {
     return productResult;
   }
 
+  Future<UserViewmodel?> getUserOrders() async {
+    var productResult = await userRepo!.get<UserViewmodel>("/order/user");
+    return productResult;
+  }
+
   Future<bool> registerFCMToken() async {
     try {
       var token = await accountService!.getFCMToken(null);

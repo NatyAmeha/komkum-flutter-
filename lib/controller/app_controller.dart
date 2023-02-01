@@ -91,7 +91,7 @@ class AppController extends GetxController {
   }
 
   logout() async {
-    var sharedPrefRepo = SharedPreferenceRepository();
+    var sharedPrefRepo = const SharedPreferenceRepository();
     sharedPrefRepo.delete(Constants.TOKEN);
     await sharedPrefRepo.delete(Constants.USERNAME);
     await sharedPrefRepo.delete(Constants.USER_ID);

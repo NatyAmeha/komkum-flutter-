@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/order.dart';
 import 'package:komkum/model/user.dart';
 import 'package:komkum/viewmodel/business_viewmodel.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 part "user_viewmodel.g.dart";
 
@@ -10,6 +11,7 @@ class UserViewmodel {
   User? user;
   List<BusienssViewmodel>? favoriteBusinesses;
   List<ProductViewmodel>? favoriteProducts;
+  List<OrderViewmodel>? orders;
 
   UserViewmodel({
     this.user,
