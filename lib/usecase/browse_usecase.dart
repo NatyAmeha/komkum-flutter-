@@ -3,7 +3,7 @@ import 'package:komkum/viewmodel/browse_viewmodel.dart';
 import 'package:komkum/viewmodel/search_viewmodel.dart';
 
 class BrowseUsecase {
-  IRepositroy<BrowseViewmodel> browseRepo;
+  IRepository<BrowseViewmodel> browseRepo;
 
   BrowseUsecase({required this.browseRepo});
 

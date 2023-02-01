@@ -74,18 +74,56 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => OrderItem(
       id: json['_id'] as String?,
       serviceItem: json['serviceItem'] as String?,
       productInfo: json['productInfo'] as String?,
+      productName: json['productName'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
       qty: json['qty'] as int?,
       coupon: json['coupon'] as String?,
       business: json['business'] as String?,
       service: json['service'] as String?,
+      image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$OrderItemToJson(OrderItem instance) => <String, dynamic>{
       '_id': instance.id,
       'serviceItem': instance.serviceItem,
       'productInfo': instance.productInfo,
+      'price': instance.price,
+      'productName': instance.productName,
       'qty': instance.qty,
       'coupon': instance.coupon,
       'business': instance.business,
       'service': instance.service,
+      'image': instance.image,
+    };
+
+OrderItemWithProductInfo _$OrderItemWithProductInfoFromJson(
+        Map<String, dynamic> json) =>
+    OrderItemWithProductInfo(
+      id: json['_id'] as String?,
+      serviceItem: json['serviceItem'] == null
+          ? null
+          : Product.fromJson(json['serviceItem'] as Map<String, dynamic>),
+      productInfo: json['productInfo'] as String?,
+      productName: json['productName'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
+      qty: json['qty'] as int?,
+      coupon: json['coupon'] as String?,
+      business: json['business'] as String?,
+      service: json['service'] as String?,
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$OrderItemWithProductInfoToJson(
+        OrderItemWithProductInfo instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'serviceItem': instance.serviceItem?.toJson(),
+      'productInfo': instance.productInfo,
+      'price': instance.price,
+      'productName': instance.productName,
+      'qty': instance.qty,
+      'coupon': instance.coupon,
+      'business': instance.business,
+      'service': instance.service,
+      'image': instance.image,
     };

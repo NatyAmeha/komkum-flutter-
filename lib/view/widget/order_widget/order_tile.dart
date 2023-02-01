@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
 import 'package:komkum/view/widget/custom_text.dart';
@@ -15,6 +13,9 @@ class OrderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+      onTap: () {
+        UIHelper.goToScreen(context, "/order/${orderInfo?.order?.id}");
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -28,24 +29,24 @@ class OrderTile extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
                       "${orderInfo?.order?.name}",
                       textStyle: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    CustomText(
-                      "${orderInfo?.order?.price}",
-                      textStyle: Theme.of(context).textTheme.titleLarge,
-                    ),
+                    UIHelper.showPrice(context,
+                        fixedPrice: orderInfo?.order?.price,
+                        minPrice: orderInfo?.order?.priceRange?.min,
+                        maxPrice: orderInfo?.order?.priceRange?.max),
                   ],
                 ),
               ),
-              const Spacer(),
               const SizedBox(width: 16),
               CustomText(
-                "${DateFormat.yMd(orderInfo?.order?.dateCreated)}",
-                textStyle: Theme.of(context).textTheme.displaySmall,
+                "${DateFormat.yMd().format(orderInfo?.order?.dateCreated ?? DateTime.now())}",
+                textStyle: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),

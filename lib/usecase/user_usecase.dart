@@ -12,7 +12,7 @@ import 'package:komkum/viewmodel/user_viewmodel.dart';
 import '../model/notification.dart';
 
 class UserUsecase {
-  IRepositroy? userRepo;
+  IRepository? userRepo;
   ISharedPrefRepository? sharedPrefRepo;
   IAccountService? accountService;
 

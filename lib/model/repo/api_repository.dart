@@ -5,7 +5,7 @@ import 'package:komkum/utils/extension.dart';
 
 import 'api_client.dart';
 
-class ApiRepository<T> implements IRepositroy<T> {
+class ApiRepository<T> implements IRepository<T> {
   ApiRepository();
   final dioClient = ApiClient.getDioInstance();
   @override

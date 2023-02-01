@@ -1,4 +1,4 @@
-abstract class IRepositroy<T> {
+abstract class IRepository<T> {
   Future<List<R>> getAll<R>(String path,
       {Map<String, dynamic>? queryParameters});
 

@@ -3,7 +3,7 @@ import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
 class ServiceUsecase {
-  IRepositroy serviceRepo;
+  IRepository serviceRepo;
 
   ServiceUsecase({required this.serviceRepo});
 

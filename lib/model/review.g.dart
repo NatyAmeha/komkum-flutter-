@@ -19,9 +19,10 @@ Review _$ReviewFromJson(Map<String, dynamic> json) => Review(
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-    )..keyPoints = (json['keyPoints'] as List<dynamic>?)
-        ?.map((e) => KeyReview.fromJson(e as Map<String, dynamic>))
-        .toList();
+      keyPoints: (json['keyPoints'] as List<dynamic>?)
+          ?.map((e) => KeyReview.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
       '_id': instance.id,

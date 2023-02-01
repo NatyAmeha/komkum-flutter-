@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/address.dart';
 import 'package:komkum/model/contact.dart';
+import 'package:komkum/model/product.dart';
 part 'order.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -66,22 +67,58 @@ class OrderItem {
   String? id;
   String? serviceItem;
   String? productInfo;
+  double? price;
+  String? productName;
   int? qty;
   String? coupon;
   String? business;
   String? service;
+  String? image;
 
-  OrderItem({
-    this.id,
-    this.serviceItem,
-    this.productInfo,
-    this.qty,
-    this.coupon,
-    this.business,
-    this.service,
-  });
+  OrderItem(
+      {this.id,
+      this.serviceItem,
+      this.productInfo,
+      this.productName,
+      this.price,
+      this.qty,
+      this.coupon,
+      this.business,
+      this.service,
+      this.image});
 
   factory OrderItem.fromJson(Map<String, dynamic> json) =>
       _$OrderItemFromJson(json);
   Map<String, dynamic> toJson() => _$OrderItemToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderItemWithProductInfo {
+  @JsonKey(name: "_id")
+  String? id;
+  Product? serviceItem;
+  String? productInfo;
+  double? price;
+  String? productName;
+  int? qty;
+  String? coupon;
+  String? business;
+  String? service;
+  String? image;
+
+  OrderItemWithProductInfo(
+      {this.id,
+      this.serviceItem,
+      this.productInfo,
+      this.productName,
+      this.price,
+      this.qty,
+      this.coupon,
+      this.business,
+      this.service,
+      this.image});
+
+  factory OrderItemWithProductInfo.fromJson(Map<String, dynamic> json) =>
+      _$OrderItemWithProductInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderItemWithProductInfoToJson(this);
 }

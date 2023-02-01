@@ -24,6 +24,8 @@ class Constants {
 
 enum AccountType { USER }
 
+enum OrderType { BOOKING, PURCHASE }
+
 enum ServiceListType { HORIZONTAL, GRID, VERTICAL, BUSINESS_SERVICES_LIST }
 
 enum ProductListType { GRID, HORIZONTAL }

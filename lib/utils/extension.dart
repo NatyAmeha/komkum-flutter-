@@ -10,6 +10,7 @@ import 'package:komkum/viewmodel/auth_result_viewmodel.dart';
 import 'package:komkum/viewmodel/browse_viewmodel.dart';
 import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/review_viewmodel.dart';
 import 'package:komkum/viewmodel/search_viewmodel.dart';
@@ -57,6 +58,8 @@ extension apiResponseconverter on dynamic {
 
       case "SearchViewmodel":
         return SearchViewmodel.fromJson(this);
+      case "OrderViewmodel":
+        return OrderViewmodel.fromJson(this);
 
       case "AuthResultViewmodel":
         return AuthResultViewmodel.fromJson(this);

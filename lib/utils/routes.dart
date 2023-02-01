@@ -8,6 +8,7 @@ import 'package:komkum/view/screen/coupon_list_screen.dart';
 import 'package:komkum/view/screen/coupons_screen.dart';
 import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
+import 'package:komkum/view/screen/order_details_screen.dart';
 import 'package:komkum/view/screen/order_list_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
 import 'package:komkum/view/screen/product_list_screen.dart';
@@ -44,6 +45,15 @@ class AppRoute {
       GoRoute(
         path: RegistrationScreen.routeName,
         builder: (context, state) => RegistrationScreen(),
+      ),
+      GoRoute(
+        path: OrderDetailsScreen.routeName,
+        builder: (context, state) {
+          var orderId = state.params["id"];
+          return orderId != null
+              ? OrderDetailsScreen(orderId: orderId)
+              : ErrorPage();
+        },
       ),
       GoRoute(
         path: OrderListScreen.routeName,

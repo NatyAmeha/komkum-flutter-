@@ -2,7 +2,7 @@ import 'package:komkum/model/repo/repository.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 
 class CouponUsecase {
-  IRepositroy couponRepo;
+  IRepository couponRepo;
 
   CouponUsecase({required this.couponRepo});
 

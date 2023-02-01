@@ -2,7 +2,7 @@ import 'package:komkum/model/repo/repository.dart';
 import 'package:komkum/viewmodel/review_viewmodel.dart';
 
 class ReviewUsecase {
-  IRepositroy reviewRepo;
+  IRepository reviewRepo;
 
   ReviewUsecase({required this.reviewRepo});
 

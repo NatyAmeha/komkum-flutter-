@@ -4,7 +4,7 @@ import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class ISharedPrefRepository<T> extends IRepositroy<T> {
+abstract class ISharedPrefRepository<T> extends IRepository<T> {
   Future<bool> saveUserInfo(User userInfo, String token);
 }
 

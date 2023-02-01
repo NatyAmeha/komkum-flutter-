@@ -23,7 +23,9 @@ class Review {
       this.businessName,
       this.service,
       this.dateCreated,
-      this.user});
+      this.user,
+      this.keyPoints,
+      });
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
   Map<String, dynamic> toJson() => _$ReviewToJson(this);

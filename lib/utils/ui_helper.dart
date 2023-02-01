@@ -95,14 +95,21 @@ class UIHelper {
     context.pop();
   }
 
-  static handleException(AppException exception, BuildContext context,
+  static AppException? handleException(
+      AppException exception, BuildContext context,
       {String? message, String? redirectTo}) {
     if (exception.type == AppException.UNAUTORIZED_EXCEPTION) {
       UIHelper.moveToLoginOrRegister(context, redirectTo: redirectTo);
     } else if (exception.type == AppException.BAD_REQUEST_EXCEPTION) {
       UIHelper.showToast(
           context, "${exception.message} went wrong, please try again");
-    } else if (exception.type == AppException.PERMISSION_DENIED_EXCEPTION) {}
+    } else if (exception.type == AppException.PERMISSION_DENIED_EXCEPTION) {
+    } else {
+      exception.message = "Error occured,please try again";
+      exception.title = "Error occured";
+      exception.actionText = "Sign in";
+    }
+    return exception;
   }
 
   static showBottomSheetDialog(BuildContext context,
@@ -129,7 +136,11 @@ class UIHelper {
   }
 
   static Widget showPrice(BuildContext context,
-      {int? fixedPrice, int? minPrice, int? maxPrice, int discountAmount = 0}) {
+      {int? fixedPrice,
+      int? minPrice,
+      int? maxPrice,
+      int discountAmount = 0,
+      double fontSize = 18}) {
     if (fixedPrice != null) {
       if (discountAmount > 0) {
         var discountedPrice = fixedPrice - (fixedPrice * discountAmount) ~/ 100;
@@ -146,7 +157,7 @@ class UIHelper {
               ),
               TextSpan(
                 text: "$discountedPrice Birr",
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: fontSize),
               ),
             ],
           ),
@@ -156,6 +167,7 @@ class UIHelper {
           "$fixedPrice Birr",
           textStyle: Theme.of(context).textTheme.titleMedium,
           fontWeight: FontWeight.bold,
+          fontSize: fontSize,
         );
       }
     } else {
@@ -175,7 +187,7 @@ class UIHelper {
               ),
               TextSpan(
                 text: "$discountedMin Birr - $discountedMax Birr",
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: fontSize),
               ),
             ],
           ),
@@ -185,6 +197,7 @@ class UIHelper {
           "$minPrice Birr - $maxPrice Birr",
           textStyle: Theme.of(context).textTheme.titleMedium,
           fontWeight: FontWeight.bold,
+          fontSize: fontSize,
         );
       }
     }
