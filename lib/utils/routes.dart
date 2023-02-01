@@ -2,17 +2,22 @@ import 'package:go_router/go_router.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/page/home_page.dart';
+import 'package:komkum/view/screen/business_list_screen.dart';
 import 'package:komkum/view/screen/business_screen.dart';
 import 'package:komkum/view/screen/coupon_list_screen.dart';
 import 'package:komkum/view/screen/coupons_screen.dart';
 import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
+import 'package:komkum/view/screen/product_list_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
 import 'package:komkum/view/screen/review_list_screen.dart';
 import 'package:komkum/view/screen/service_detail_screen.dart';
 import 'package:komkum/view/screen/verification_screen.dart';
+import 'package:komkum/view/widget/service_widget/product_list.dart';
+import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
+import 'package:komkum/viewmodel/product_viewmodel.dart';
 
 class AppRoute {
   static var routes = GoRouter(
@@ -64,6 +69,23 @@ class AppRoute {
         },
       ),
       GoRoute(
+        name: ProductListScreen.routeName,
+        path: ProductListScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var title = args["TITLE"] as String;
+
+          var listDataType = args["DATA_TYPE"] as ProductListDataType?;
+          var products = args["PRODUCTS"] as List<ProductViewmodel>?;
+
+          return ProductListScreen(
+            title: title,
+            listDataType: listDataType,
+            products: products,
+          );
+        },
+      ),
+      GoRoute(
         path: BusinessScreen.routeName,
         builder: (context, state) {
           var businessId = state.params["id"];
@@ -71,6 +93,23 @@ class AppRoute {
           return businessId != null
               ? BusinessScreen(businessId: businessId)
               : ErrorPage();
+        },
+      ),
+      GoRoute(
+        name: BusinessListScreen.routeName,
+        path: BusinessListScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var title = args["TITLE"] as String;
+
+          var listDataType = args["DATA_TYPE"] as BusinessListDataType?;
+          var products = args["BUSINESSES"] as List<BusienssViewmodel>?;
+
+          return BusinessListScreen(
+            title: title,
+            dataType: listDataType,
+            businesses: products,
+          );
         },
       ),
       GoRoute(

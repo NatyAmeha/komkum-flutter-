@@ -23,6 +23,7 @@ ProductViewmodel _$ProductViewmodelFromJson(Map<String, dynamic> json) =>
       couponsInfo: (json['couponsInfo'] as List<dynamic>?)
           ?.map((e) => CouponViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      favorite: json['favorite'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ProductViewmodelToJson(ProductViewmodel instance) =>
@@ -33,4 +34,5 @@ Map<String, dynamic> _$ProductViewmodelToJson(ProductViewmodel instance) =>
       'relatedServiceItems':
           instance.relatedServiceItems?.map((e) => e.toJson()).toList(),
       'couponsInfo': instance.couponsInfo?.map((e) => e.toJson()).toList(),
+      'favorite': instance.favorite,
     };

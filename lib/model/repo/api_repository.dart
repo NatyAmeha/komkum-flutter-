@@ -76,7 +76,7 @@ class ApiRepository<T> implements IRepositroy<T> {
     try {
       var result = await dioClient.put(path,
           data: body, queryParameters: queryParameters);
-      print(result.data);
+      print("resut ${result.data}");
 
       var mapResult = result.data as R;
       // var finalResult = await mapResult.toObject(S.toString());

@@ -18,4 +18,18 @@ class ServiceUsecase {
         await serviceRepo.get<ProductViewmodel>("/service/product/$productId");
     return productResult;
   }
+
+  Future<bool> addProductToFavorite(List<String> productIds) async {
+    var result = await serviceRepo.update<bool, dynamic>("/user/products/add",
+        queryParameters: {"ids": productIds.join(",")});
+    print("product update result $result");
+    return result;
+  }
+
+  Future<bool> removeProductFromFavorite(List<String> productIds) async {
+    var result = await serviceRepo.update<bool, dynamic>(
+        "/user/products/remove",
+        queryParameters: {"ids": productIds.join(",")});
+    return result;
+  }
 }

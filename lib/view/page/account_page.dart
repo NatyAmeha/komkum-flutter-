@@ -4,8 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
 import 'package:komkum/controller/user_controller.dart';
+import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/business_list_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
+import 'package:komkum/view/screen/product_list_screen.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
@@ -59,24 +62,26 @@ class _AccountPageState extends State<AccountPage> {
                 Card(
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: const Icon(Icons.account_circle, size: 50),
-                        title: userController.appController.loggedInUserResult
-                                    .username ==
-                                null
-                            ? TextButton(
-                                child: CustomText("Register or Sign in"),
-                                onPressed: () {
-                                  UIHelper.moveToLoginOrRegister(context);
-                                },
-                              )
-                            : CustomText(
-                                userController
-                                    .appController.loggedInUserResult.username!,
-                                textStyle:
-                                    Theme.of(context).textTheme.titleLarge,
-                              ),
-                        trailing: const Icon(Icons.arrow_forward_ios),
+                      Obx(
+                        () => ListTile(
+                          leading: const Icon(Icons.account_circle, size: 50),
+                          title: userController.appController.loggedInUserResult
+                                      .username ==
+                                  null
+                              ? TextButton(
+                                  child: CustomText("Register or Sign in"),
+                                  onPressed: () {
+                                    UIHelper.moveToLoginOrRegister(context);
+                                  },
+                                )
+                              : CustomText(
+                                  userController.appController
+                                      .loggedInUserResult.username!,
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleLarge,
+                                ),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       CustomContainer(
@@ -103,7 +108,7 @@ class _AccountPageState extends State<AccountPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.badge),
+                        leading: const Icon(Icons.badge),
                         title: CustomText(
                           "My orders",
                           textStyle: Theme.of(context).textTheme.titleSmall,
@@ -124,14 +129,36 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                       ),
                       ListTile(
-                        leading: Icon(Icons.business_outlined),
+                        onTap: () {
+                          UIHelper.goToScreen(
+                            context,
+                            BusinessListScreen.routeName,
+                            extra: {
+                              "TITLE": "Favorite Businesses",
+                              "DATA_TYPE":
+                                  BusinessListDataType.USER_FAVORITE_BUSINESS
+                            },
+                          );
+                        },
+                        leading: const Icon(Icons.business_outlined),
                         title: CustomText(
                           "My Favorite businesses",
                           textStyle: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),
                       ListTile(
-                        leading: Icon(Icons.favorite_outline),
+                        onTap: () {
+                          UIHelper.goToScreen(
+                            context,
+                            ProductListScreen.routeName,
+                            extra: {
+                              "TITLE": "Favorite Products",
+                              "DATA_TYPE":
+                                  ProductListDataType.USER_FAVORITE_PRDUCTS
+                            },
+                          );
+                        },
+                        leading: const Icon(Icons.favorite_outline),
                         title: CustomText(
                           "My favorite products",
                           textStyle: Theme.of(context).textTheme.titleSmall,

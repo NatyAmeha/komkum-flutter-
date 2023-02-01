@@ -12,14 +12,15 @@ class ProductViewmodel {
   Business? businessInfo;
   List<ProductViewmodel>? relatedServiceItems;
   List<CouponViewmodel>? couponsInfo;
+  bool favorite;
 
-  ProductViewmodel({
-    this.serviceItem,
-    this.serviceInfo,
-    this.businessInfo,
-    this.relatedServiceItems,
-    this.couponsInfo,
-  });
+  ProductViewmodel(
+      {this.serviceItem,
+      this.serviceInfo,
+      this.businessInfo,
+      this.relatedServiceItems,
+      this.couponsInfo,
+      this.favorite = false});
 
   factory ProductViewmodel.fromJson(Map<String, dynamic> json) =>
       _$ProductViewmodelFromJson(json);

@@ -10,6 +10,7 @@ import 'package:komkum/view/widget/business_widget/business_info_tile.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
+import 'package:komkum/view/widget/icon_switch.dart';
 import 'package:komkum/view/widget/image_carousel.dart';
 import 'package:komkum/view/widget/key_point.dart';
 import 'package:komkum/view/widget/list_header.dart';
@@ -74,14 +75,30 @@ class ProductDetailScreen extends StatelessWidget {
                                     Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                var serviceId = productController
-                                    .productDetail?.serviceInfo?.id;
-                                UIHelper.goToScreen(
-                                    context, "/service/$serviceId");
-                              },
-                              icon: const Icon(Icons.bookmark, size: 30),
+                            Obx(
+                              () => !productController.isProductInFavorite.value
+                                  ? IconButton(
+                                      icon: const Icon(Icons.favorite_outline),
+                                      onPressed: () {
+                                        productController.addProductToFavorite([
+                                          productController
+                                              .productDetail!.serviceItem!.id!
+                                        ], context);
+                                      },
+                                    )
+                                  : IconButton(
+                                      icon: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {
+                                        productController
+                                            .removeProductFromFavorite([
+                                          productController
+                                              .productDetail!.serviceItem!.id!
+                                        ], context);
+                                      },
+                                    ),
                             )
                           ],
                         ),

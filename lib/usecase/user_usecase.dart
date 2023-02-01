@@ -53,6 +53,18 @@ class UserUsecase {
     return userREsult;
   }
 
+  Future<UserViewmodel?> getUserFavoriteProducts() async {
+    var productResult =
+        await userRepo!.get<UserViewmodel>("/user/products/favorite");
+    return productResult;
+  }
+
+  Future<UserViewmodel?> getUserFavoriteBusinesses() async {
+    var productResult =
+        await userRepo!.get<UserViewmodel>("/user/businesses/favorite");
+    return productResult;
+  }
+
   Future<bool> registerFCMToken() async {
     try {
       var token = await accountService!.getFCMToken(null);

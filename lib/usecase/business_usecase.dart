@@ -11,4 +11,17 @@ class BusinessUsecase {
         await businessRepo.get<BusienssViewmodel>("/business/$businessId");
     return result;
   }
+
+  Future<bool> addBusinessToFavorite(String businessId) async {
+    var result = await businessRepo.update<bool, dynamic>("/business/like",
+        queryParameters: {"id": businessId});
+
+    return result;
+  }
+
+  Future<bool> removeBusinessFromFavorite(String businessId) async {
+    var result = await businessRepo.update<bool, dynamic>("/business/unlike",
+        queryParameters: {"id": businessId});
+    return result;
+  }
 }

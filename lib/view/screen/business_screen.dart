@@ -71,11 +71,44 @@ class _BusinessScreenState extends State<BusinessScreen> {
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: CustomText(
-                        "${businessController.businessDetails?.businessInfo?.name} ",
-                        textStyle: Theme.of(context).textTheme.titleLarge,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomText(
+                              "${businessController.businessDetails?.businessInfo?.name} ",
+                              textStyle: Theme.of(context).textTheme.titleLarge,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Obx(
+                            () => !businessController.isBusinessInFavorite.value
+                                ? IconButton(
+                                    onPressed: () {
+                                      businessController.addBusinessToFavorite(
+                                        businessController
+                                            .businessDetails!.businessInfo!.id!,
+                                        context,
+                                      );
+                                    },
+                                    icon: const Icon(Icons.favorite_outline))
+                                : IconButton(
+                                    onPressed: () {
+                                      businessController
+                                          .removeBusinessFromFavorite(
+                                        businessController
+                                            .businessDetails!.businessInfo!.id!,
+                                        context,
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.favorite,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                          )
+                        ],
                       ),
                     ),
                     const SizedBox(height: 24)

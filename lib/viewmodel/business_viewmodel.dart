@@ -17,16 +17,18 @@ class BusienssViewmodel {
   List<ServiceViewmodel>? services;
 
   List<ProductViewmodel>? trendingProducts;
-  @JsonSerializable(explicitToJson: true)
-  BusienssViewmodel({
-    this.businessInfo,
-    this.reviewInfo,
-    this.relatedBusinesses,
-    this.isInUserFavorite,
-    this.coupons,
-    this.services,
-    this.trendingProducts,
-  });
+
+  bool favorite;
+
+  BusienssViewmodel(
+      {this.businessInfo,
+      this.reviewInfo,
+      this.relatedBusinesses,
+      this.isInUserFavorite,
+      this.coupons,
+      this.services,
+      this.trendingProducts,
+      this.favorite = false});
 
   factory BusienssViewmodel.fromJson(Map<String, dynamic> json) =>
       _$BusienssViewmodelFromJson(json);

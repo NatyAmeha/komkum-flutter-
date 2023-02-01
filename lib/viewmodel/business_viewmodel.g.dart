@@ -28,6 +28,7 @@ BusienssViewmodel _$BusienssViewmodelFromJson(Map<String, dynamic> json) =>
       trendingProducts: (json['trendingProducts'] as List<dynamic>?)
           ?.map((e) => ProductViewmodel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      favorite: json['favorite'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$BusienssViewmodelToJson(BusienssViewmodel instance) =>
@@ -41,4 +42,5 @@ Map<String, dynamic> _$BusienssViewmodelToJson(BusienssViewmodel instance) =>
       'services': instance.services?.map((e) => e.toJson()).toList(),
       'trendingProducts':
           instance.trendingProducts?.map((e) => e.toJson()).toList(),
+      'favorite': instance.favorite,
     };
