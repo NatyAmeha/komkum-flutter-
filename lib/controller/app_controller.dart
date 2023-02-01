@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/model/repo/shared_pref_repo.dart';
 import 'package:komkum/model/user.dart';
+import 'package:komkum/service/account_service.dart';
 import 'package:komkum/usecase/browse_usecase.dart';
+import 'package:komkum/usecase/user_usecase.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/viewmodel/browse_viewmodel.dart';
@@ -25,7 +27,8 @@ class AppController extends GetxController {
   var myPageStack = FirstAndLastPageStack(initialPage: 0);
 
   @override
-  void onInit() {
+  void onInit() async {
+    await checkUserLoginStatus();
     getHomepage();
     super.onInit();
   }
@@ -75,6 +78,16 @@ class AppController extends GetxController {
     } finally {
       _isDataLoading(false);
     }
+  }
+
+  checkUserLoginStatus() async {
+    var userUsecase = UserUsecase(
+      accountService: FirebaseAuthService(),
+      sharedPrefRepo: const SharedPreferenceRepository(),
+    );
+    var result = await userUsecase.getUserInfoFromPref();
+
+    if (result != null) loggedInUser(result);
   }
 
   logout() async {
