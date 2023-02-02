@@ -17,6 +17,7 @@ class CustomTextField<T> extends StatelessWidget {
   bool isformField;
   Widget? suffix;
   double contentPadding;
+  bool multiLine;
   TextEditingController? controller;
   Function(String?)? validator;
   Function(String)? onchanged;
@@ -37,6 +38,7 @@ class CustomTextField<T> extends StatelessWidget {
       this.isformField = false,
       this.validator,
       this.showCursor = true,
+      this.multiLine = false,
       this.onchanged,
       this.contentPadding = 24,
       this.suffix,
@@ -56,6 +58,7 @@ class CustomTextField<T> extends StatelessWidget {
             textInputAction: inputAction,
             style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
             maxLength: maxLength,
+            maxLines: multiLine ? 5 : 1,
             showCursor: showCursor,
             decoration: InputDecoration(
                 suffix: suffix,

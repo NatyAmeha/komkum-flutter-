@@ -1,4 +1,5 @@
 import 'package:komkum/model/repo/repository.dart';
+import 'package:komkum/model/review.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
@@ -31,5 +32,11 @@ class ServiceUsecase {
         "/user/products/remove",
         queryParameters: {"ids": productIds.join(",")});
     return result;
+  }
+
+  Future<bool> addReviewToService(Review reviewInfo) async {
+    var productResult = await serviceRepo.create<bool, Review>(
+        "/service/review/add", reviewInfo);
+    return productResult;
   }
 }

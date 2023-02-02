@@ -24,17 +24,18 @@ class ReviewTile extends StatelessWidget {
     var finalRating = totalRating / (reviewInfo.keyPoints?.length ?? 0);
     return CustomContainer(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               CircleAvatar(
                 backgroundColor: Colors.blueGrey,
                 radius: 20,
-                backgroundImage: reviewInfo.user?.profileImage != null
-                    ? NetworkImage(reviewInfo.user!.profileImage!)
+                backgroundImage: reviewInfo.profileImage != null
+                    ? NetworkImage(reviewInfo.profileImage!)
                     : null,
-                child: reviewInfo.user?.profileImage == null
-                    ? CustomText("${reviewInfo.user?.username?[0]}")
+                child: reviewInfo.profileImage == null
+                    ? CustomText("${reviewInfo.username?[0]}")
                     : null,
               ),
               const SizedBox(width: 16),
@@ -43,7 +44,7 @@ class ReviewTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      "${reviewInfo.user?.username ?? 'Natnael Ameha'} ",
+                      "${reviewInfo.username} ",
                       textStyle: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 8),

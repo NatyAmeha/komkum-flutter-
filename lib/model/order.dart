@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/address.dart';
 import 'package:komkum/model/contact.dart';
 import 'package:komkum/model/product.dart';
+import 'package:komkum/model/service.dart';
 part 'order.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -103,7 +104,7 @@ class OrderItemWithProductInfo {
   int? qty;
   String? coupon;
   String? business;
-  String? service;
+  Service? service;
   String? image;
 
   OrderItemWithProductInfo(

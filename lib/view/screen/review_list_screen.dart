@@ -6,6 +6,7 @@ import 'package:komkum/controller/review_controller.dart';
 import 'package:komkum/model/review.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/write_review_screen.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/list_header.dart';
 import 'package:komkum/view/widget/review_widget/review_info.dart';
@@ -86,8 +87,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                             return ReviewKeypointTile(
                               keyReviewPoint: KeyReview(
                                   key: "All",
-                                  rating: reviewController.reviewData?.rating
-                                      ?.toInt(),
+                                  rating: reviewController.reviewData?.rating,
                                   count: reviewController
                                       .reviewData?.reviews?.length),
                               index: index,
@@ -132,8 +132,6 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {}, isExtended: true, child: const Icon(Icons.add)),
     );
   }
 }

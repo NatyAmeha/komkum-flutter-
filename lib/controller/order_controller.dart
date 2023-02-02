@@ -37,8 +37,6 @@ class Ordercontroller extends GetxController {
 
       var orderUsecase = OrderUsecase(orderRepo: ApiRepository());
       orderDetails = await orderUsecase.getOrderDetails(orderId);
-      print(
-          "order detail rsult ${orderDetails?.items}  ${orderDetails?.items?.length}");
     } catch (ex) {
       print(ex.toString());
       var exception = ex as AppException;
@@ -55,7 +53,7 @@ class Ordercontroller extends GetxController {
   getUserOrders(BuildContext context) async {
     try {
       _isDataLoading(true);
-
+      orderLists = null;
       var userUsecase = UserUsecase(userRepo: ApiRepository());
 
       var userResult = await userUsecase.getUserOrders();

@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:komkum/model/review.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/page/home_page.dart';
@@ -16,6 +17,7 @@ import 'package:komkum/view/screen/register_screen.dart';
 import 'package:komkum/view/screen/review_list_screen.dart';
 import 'package:komkum/view/screen/service_detail_screen.dart';
 import 'package:komkum/view/screen/verification_screen.dart';
+import 'package:komkum/view/screen/write_review_screen.dart';
 import 'package:komkum/view/widget/service_widget/product_list.dart';
 import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
@@ -159,6 +161,23 @@ class AppRoute {
             name: name,
             reviewType: reviewType,
             id: id,
+          );
+        },
+      ),
+      GoRoute(
+        // parentNavigatorKey: _rootNavigatorKey,
+        path: WriteReviewScreen.routeName,
+        name: WriteReviewScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var title = args["TITLE"] as String;
+          var reviewInfo = args["REVIEW"] as Review;
+          var keyPoints = args["KEYPOINTS"] as String?;
+          print("route reivew $keyPoints");
+          return WriteReviewScreen(
+            title: title,
+            review: reviewInfo,
+            reviewKeys: keyPoints?.split(",") ?? [],
           );
         },
       ),

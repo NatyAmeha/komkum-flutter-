@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:komkum/controller/order_controller.dart';
 import 'package:komkum/model/review.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/write_review_screen.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
@@ -143,6 +144,28 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             reviewInfo: orderController
                                 .orderDetails!.userReviewInfo!.reviews!.first)
                         : ListTile(
+                            onTap: () {
+                              UIHelper.goToScreen(
+                                context,
+                                WriteReviewScreen.routeName,
+                                extra: {
+                                  "TITLE":
+                                      "${orderController.orderDetails?.items?.first.service?.name}",
+                                  "REVIEW": Review(
+                                    business:
+                                        "${orderController.orderDetails?.items?.first.business}",
+                                    businessName: "Business Name",
+                                    service:
+                                        "${orderController.orderDetails?.items?.first.service?.id}",
+                                    serviceName:
+                                        "${orderController.orderDetails?.items?.first.service?.name}",
+                                  ),
+                                  "KEYPOINTS": orderController.orderDetails
+                                      ?.items?.first.service?.reviewPoints
+                                      ?.join(",")
+                                },
+                              );
+                            },
                             leading: const Icon(Icons.reviews),
                             title: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),

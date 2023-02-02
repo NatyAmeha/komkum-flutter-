@@ -16,9 +16,9 @@ Review _$ReviewFromJson(Map<String, dynamic> json) => Review(
       dateCreated: json['dateCreated'] == null
           ? null
           : DateTime.parse(json['dateCreated'] as String),
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] as String?,
+      username: json['username'] as String?,
+      profileImage: json['profileImage'] as String?,
       keyPoints: (json['keyPoints'] as List<dynamic>?)
           ?.map((e) => KeyReview.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -31,14 +31,16 @@ Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
       'businessName': instance.businessName,
       'service': instance.service,
       'business': instance.business,
-      'user': instance.user?.toJson(),
+      'user': instance.user,
+      'username': instance.username,
+      'profileImage': instance.profileImage,
       'keyPoints': instance.keyPoints?.map((e) => e.toJson()).toList(),
       'dateCreated': instance.dateCreated?.toIso8601String(),
     };
 
 KeyReview _$KeyReviewFromJson(Map<String, dynamic> json) => KeyReview(
       key: json['key'] as String?,
-      rating: json['rating'] as int?,
+      rating: (json['rating'] as num?)?.toDouble(),
       count: json['count'] as int?,
     );
 

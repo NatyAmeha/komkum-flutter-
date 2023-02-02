@@ -109,7 +109,9 @@ OrderItemWithProductInfo _$OrderItemWithProductInfoFromJson(
       qty: json['qty'] as int?,
       coupon: json['coupon'] as String?,
       business: json['business'] as String?,
-      service: json['service'] as String?,
+      service: json['service'] == null
+          ? null
+          : Service.fromJson(json['service'] as Map<String, dynamic>),
       image: json['image'] as String?,
     );
 
@@ -124,6 +126,6 @@ Map<String, dynamic> _$OrderItemWithProductInfoToJson(
       'qty': instance.qty,
       'coupon': instance.coupon,
       'business': instance.business,
-      'service': instance.service,
+      'service': instance.service?.toJson(),
       'image': instance.image,
     };

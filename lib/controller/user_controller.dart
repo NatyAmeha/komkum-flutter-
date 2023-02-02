@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/model/repo/shared_pref_repo.dart';
+import 'package:komkum/model/review.dart';
 import 'package:komkum/model/user.dart';
 import 'package:komkum/service/account_service.dart';
+import 'package:komkum/usecase/service_usecase.dart';
 import 'package:komkum/usecase/user_usecase.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/utils/ui_helper.dart';
@@ -157,6 +159,24 @@ class UserController extends GetxController {
                 redirectTo: HomeScreen.routeName);
           });
       _exception(appException);
+    } finally {
+      _isDataLoading(false);
+    }
+  }
+
+  addReviewToService(Review reviewInfo, BuildContext context) async {
+    try {
+      _isDataLoading(true);
+      var serviceUsecase = ServiceUsecase(serviceRepo: ApiRepository<User>());
+
+      var result = await serviceUsecase.addReviewToService(reviewInfo);
+      if (result) {
+        UIHelper.showToast(context, "Your review added successfully");
+        UIHelper.goBack(context);
+      }
+    } catch (ex) {
+      var appException = ex as AppException;
+      UIHelper.handleException(appException, context);
     } finally {
       _isDataLoading(false);
     }

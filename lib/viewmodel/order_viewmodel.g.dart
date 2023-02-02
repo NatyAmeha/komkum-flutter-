@@ -15,14 +15,14 @@ OrderViewmodel _$OrderViewmodelFromJson(Map<String, dynamic> json) =>
           ? null
           : ReviewViewmodel.fromJson(
               json['userReviewInfo'] as Map<String, dynamic>),
-    )
-      ..items = (json['items'] as List<dynamic>?)
+      business: json['business'] == null
+          ? null
+          : Business.fromJson(json['business'] as Map<String, dynamic>),
+      items: (json['items'] as List<dynamic>?)
           ?.map((e) =>
               OrderItemWithProductInfo.fromJson(e as Map<String, dynamic>))
-          .toList()
-      ..business = json['business'] == null
-          ? null
-          : Business.fromJson(json['business'] as Map<String, dynamic>);
+          .toList(),
+    );
 
 Map<String, dynamic> _$OrderViewmodelToJson(OrderViewmodel instance) =>
     <String, dynamic>{

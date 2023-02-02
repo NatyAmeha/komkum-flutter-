@@ -8,7 +8,7 @@ class CustomRatingBar extends StatelessWidget {
   double? ratingValue;
   double size;
   int starCount;
-  Function? onRatingUpdated;
+  Function(double)? onRatingUpdated;
   CustomRatingBar(
       {this.ratingValue,
       this.enableRating = false,
@@ -20,14 +20,15 @@ class CustomRatingBar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (enableRating) {
       return RatingBar.builder(
-        itemBuilder: (context, index) => const Icon(
-          Icons.star,
-          color: Colors.amber,
-        ),
-        itemCount: starCount,
-        itemSize: size,
-        onRatingUpdate: onRatingUpdated?.call(),
-      );
+          itemBuilder: (context, index) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+          itemCount: starCount,
+          itemSize: size,
+          onRatingUpdate: (value) {
+            onRatingUpdated?.call(value);
+          });
     } else {
       return RatingBarIndicator(
         itemBuilder: (context, index) => const Icon(

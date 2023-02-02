@@ -11,21 +11,25 @@ class Review {
   String? businessName;
   String? service;
   String? business;
-  User? user;
+  String? user;
+  String? username;
+  String? profileImage;
   List<KeyReview>? keyPoints;
   DateTime? dateCreated;
 
-  Review(
-      {this.id,
-      this.description,
-      this.serviceName,
-      this.business,
-      this.businessName,
-      this.service,
-      this.dateCreated,
-      this.user,
-      this.keyPoints,
-      });
+  Review({
+    this.id,
+    this.description,
+    this.serviceName,
+    this.business,
+    this.businessName,
+    this.service,
+    this.dateCreated,
+    this.user,
+    this.username,
+    this.profileImage,
+    this.keyPoints,
+  });
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
   Map<String, dynamic> toJson() => _$ReviewToJson(this);
@@ -34,7 +38,7 @@ class Review {
 @JsonSerializable(explicitToJson: true)
 class KeyReview {
   String? key;
-  int? rating;
+  double? rating;
   int? count;
   KeyReview({this.key, this.rating, this.count});
 

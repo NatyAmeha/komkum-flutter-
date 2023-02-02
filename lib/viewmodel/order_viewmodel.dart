@@ -12,7 +12,7 @@ class OrderViewmodel {
   Business? business;
   ReviewViewmodel? userReviewInfo;
 
-  OrderViewmodel({this.order, this.userReviewInfo});
+  OrderViewmodel({this.order, this.userReviewInfo, this.business, this.items});
 
   factory OrderViewmodel.fromJson(Map<String, dynamic> json) =>
       _$OrderViewmodelFromJson(json);
