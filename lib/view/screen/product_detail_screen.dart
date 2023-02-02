@@ -3,36 +3,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/product_controller.dart';
-import 'package:komkum/controller/service_controller.dart';
 import 'package:komkum/utils/ui_helper.dart';
-import 'package:komkum/view/widget/business_widget/business.tile.dart';
 import 'package:komkum/view/widget/business_widget/business_info_tile.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
-import 'package:komkum/view/widget/icon_switch.dart';
 import 'package:komkum/view/widget/image_carousel.dart';
 import 'package:komkum/view/widget/key_point.dart';
 import 'package:komkum/view/widget/list_header.dart';
 import 'package:komkum/view/widget/service_widget/product_list.dart';
 import 'package:komkum/view/widget/service_widget/product_variant_list_tile.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   static const routeName = "/product/:id";
   String productId;
   ProductDetailScreen({required this.productId});
 
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   var productController = Get.put(ProductController());
 
   loadData(BuildContext context) {
     Future.delayed(Duration.zero, () {
-      productController.getProductDetails(productId, context);
+      productController.getProductDetails(widget.productId, context);
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     loadData(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var carouselController = CarouselController();
     return Scaffold(
       body: Obx(() => UIHelper.displayContent(
@@ -146,7 +153,7 @@ class ProductDetailScreen extends StatelessWidget {
                             isSliver: false, bottomPadding: 0),
                         CustomContainer(
                           padding: 0,
-                          margin: 16,
+                          margin: 0,
                           height: 100,
                           width: double.infinity,
                           child: GridView.builder(
@@ -156,10 +163,18 @@ class ProductDetailScreen extends StatelessWidget {
                                     mainAxisExtent: 220,
                                     crossAxisSpacing: 16,
                                     mainAxisSpacing: 8),
-                            itemBuilder: (context, index) =>
-                                ProductVariantListTile(
-                              productVariant: productController
-                                  .productDetail!.serviceItem!.variants![index],
+                            itemBuilder: (context, index) => Obx(
+                              () => ProductVariantListTile(
+                                productVariant: productController.productDetail!
+                                    .serviceItem!.variants![index],
+                                index: index,
+                                SelectedIndex: productController
+                                    .selectedVariantIndex.value,
+                                onSelected: (newSelectedVariant) {
+                                  productController
+                                      .changeSelectedVariant(index);
+                                },
+                              ),
                             ),
                             itemCount: productController
                                 .productDetail!.serviceItem!.variants!.length,
@@ -174,6 +189,53 @@ class ProductDetailScreen extends StatelessWidget {
                               productController.productDetail!.businessInfo!,
                         ),
                       const Divider(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CustomText(
+                            "Qty",
+                            textStyle: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          // const Spacer(),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          productController.remvoeQty();
+                                        },
+                                        icon: const Icon(Icons.remove)),
+                                    const SizedBox(width: 8),
+                                    Obx(() => CustomContainer(
+                                          width: 50,
+                                          height: 50,
+                                          color: Colors.grey[200],
+                                          child: CustomText(
+                                            "${productController.selectedQty}",
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                        )),
+                                    const SizedBox(width: 8),
+                                    IconButton(
+                                      onPressed: () {
+                                        productController.addQty();
+                                      },
+                                      icon: const Icon(Icons.add),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),

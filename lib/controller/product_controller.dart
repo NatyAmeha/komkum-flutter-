@@ -24,17 +24,38 @@ class ProductController extends GetxController {
 
   List<ProductViewmodel>? productLists;
 
+  var selectedVariantIndex = 0.obs;
+  var selectedQty = 1.obs;
+  ProductVariant? selectedProductVariant;
+  changeSelectedVariant(int index) {
+    selectedProductVariant = productDetail?.serviceItem?.variants![index];
+    selectedVariantIndex(index);
+  }
+
+  addQty() {
+    selectedQty.value += 1;
+  }
+
+  remvoeQty() {
+    if (selectedQty.value > 1) selectedQty.value -= 1;
+  }
+
   getProductDetails(String productId, BuildContext context) async {
     try {
       //remove any exception
-      if (productId != productDetail?.serviceInfo?.id) {
-        productDetail = null;
+
+      if (productId == productDetail?.serviceInfo?.id) {
+        return null;
       }
+      productDetail = null;
       _exception(AppException());
       _isDataLoading(true);
       var serviceUsecase = ServiceUsecase(serviceRepo: ApiRepository());
       productDetail = await serviceUsecase.getProductInfo(productId);
       isProductInFavorite(productDetail?.favorite);
+      if (productDetail?.serviceItem?.variants?.isNotEmpty == true) {
+        changeSelectedVariant(0);
+      }
     } catch (ex) {
       print(ex.toString());
       var exception = ex as AppException;

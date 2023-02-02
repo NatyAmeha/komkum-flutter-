@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/model/product.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/usecase/service_usecase.dart';
 import 'package:komkum/utils/exception.dart';
@@ -34,6 +35,29 @@ class ServiceController extends GetxController {
     }
     return 0;
   }
+
+  var selectedVariantIndex = 0.obs;
+  var selectedQty = 1.obs;
+
+  changeSelectedVariant(String productId, int index) {
+    var selectedProduct = serviceDetails?.serviceItems
+        ?.firstWhere((element) => element.id == productId);
+
+    if (selectedProduct != null) {
+      selectedVariant = selectedProduct.variants![index];
+    }
+    selectedVariantIndex(index);
+  }
+
+  addQty() {
+    selectedQty.value += 1;
+  }
+
+  remvoeQty() {
+    if (selectedQty.value > 1) selectedQty.value -= 1;
+  }
+
+  ProductVariant? selectedVariant;
 
   ProductViewmodel? productDetail;
 

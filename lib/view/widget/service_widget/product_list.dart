@@ -13,14 +13,17 @@ class ProductList extends StatelessWidget {
   ProductListType productListType;
   int discountAmount;
   double height;
-  ProductList({
-    this.products,
-    this.productViewmodels,
-    this.isSliver = true,
-    this.productListType = ProductListType.GRID,
-    this.height = 220,
-    this.discountAmount = 0,
-  });
+  String? callToAction;
+  bool showDetailsInDialog;
+  ProductList(
+      {this.products,
+      this.productViewmodels,
+      this.isSliver = true,
+      this.productListType = ProductListType.GRID,
+      this.height = 220,
+      this.discountAmount = 0,
+      this.showDetailsInDialog = false,
+      this.callToAction});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,8 @@ class ProductList extends StatelessWidget {
                   products![index],
               height: height,
               discountAmount: discountAmount,
+              showInDialog: showDetailsInDialog,
+              serviceCallToAction: callToAction,
             ),
           ),
         );
@@ -48,14 +53,17 @@ class ProductList extends StatelessWidget {
                     products![index],
                 height: height,
                 discountAmount: discountAmount,
+                showInDialog: showDetailsInDialog,
+                serviceCallToAction: callToAction,
               ),
               childCount: productViewmodels?.length ?? products?.length,
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisExtent: height,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 8),
+              crossAxisCount: 2,
+              mainAxisExtent: height,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 8,
+            ),
           );
         } else {
           return GridView.builder(
@@ -69,6 +77,8 @@ class ProductList extends StatelessWidget {
                   products![index],
               height: height,
               discountAmount: discountAmount,
+              showInDialog: showDetailsInDialog,
+              serviceCallToAction: callToAction,
             ),
             itemCount: productViewmodels?.length ?? products?.length,
           );

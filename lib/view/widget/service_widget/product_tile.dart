@@ -9,14 +9,22 @@ import 'package:komkum/view/widget/custom_badge.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
 import 'package:komkum/view/widget/custom_text.dart';
+import 'package:komkum/view/widget/service_widget/product_details_dialog.dart';
 
 class ProductTile extends StatelessWidget {
   Product productInfo;
   int discountAmount;
   double height;
+  bool showInDialog;
+  String? serviceCallToAction;
 
-  ProductTile(
-      {required this.productInfo, this.height = 160, this.discountAmount = 10});
+  ProductTile({
+    required this.productInfo,
+    this.height = 160,
+    this.discountAmount = 10,
+    this.showInDialog = false,
+    this.serviceCallToAction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,21 @@ class ProductTile extends StatelessWidget {
         child: CustomContainer(
           padding: 0,
           onTap: () {
-            UIHelper.goToScreen(context, "/product/${productInfo.id}");
+            if (showInDialog) {
+              print("dialog called");
+              UIHelper.showBottomSheetDialog(
+                context,
+                body: ProductDetailsDialog(
+                  productInfo: productInfo,
+                  callToAction: serviceCallToAction ??
+                      productInfo.callToAction ??
+                      "Order",
+                  discountPercent: discountAmount,
+                ),
+              );
+            } else {
+              UIHelper.goToScreen(context, "/product/${productInfo.id}");
+            }
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,

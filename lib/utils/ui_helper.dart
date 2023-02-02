@@ -115,6 +115,7 @@ class UIHelper {
   static showBottomSheetDialog(BuildContext context,
       {Widget? title, required Widget body}) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) => body,
     );

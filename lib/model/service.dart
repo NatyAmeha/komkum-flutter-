@@ -18,7 +18,7 @@ class Service {
   bool? active;
   String? creator;
   List<String>? serviceItems;
-
+  String? callToAction;
   List<String>? coupons;
   DateTime? dateCreated;
   List<String>? reviews;
@@ -35,6 +35,7 @@ class Service {
       this.images,
       this.tags,
       this.viewCount,
+      this.callToAction,
       this.active,
       this.creator,
       this.serviceItems,

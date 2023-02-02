@@ -15,6 +15,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => Service(
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       viewCount: json['viewCount'] as int?,
+      callToAction: json['callToAction'] as String?,
       active: json['active'] as bool?,
       creator: json['creator'] as String?,
       serviceItems: (json['serviceItems'] as List<dynamic>?)
@@ -50,6 +51,7 @@ Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'active': instance.active,
       'creator': instance.creator,
       'serviceItems': instance.serviceItems,
+      'callToAction': instance.callToAction,
       'coupons': instance.coupons,
       'dateCreated': instance.dateCreated?.toIso8601String(),
       'reviews': instance.reviews,
