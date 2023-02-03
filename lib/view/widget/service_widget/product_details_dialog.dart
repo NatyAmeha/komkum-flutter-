@@ -17,6 +17,7 @@ import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/custom_text_field.dart';
 import 'package:komkum/view/widget/key_point.dart';
 import 'package:komkum/view/widget/list_header.dart';
+import 'package:komkum/view/widget/qty_selector.dart';
 import 'package:komkum/view/widget/service_widget/product_variant_list_tile.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 
@@ -42,24 +43,25 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
 
   @override
   Widget build(BuildContext context) {
+    serviceController.getSelectedProducdtDetails(widget.productInfo);
     if (widget.productInfo.variants?.isNotEmpty == true) {
       serviceController.changeSelectedVariant(widget.productInfo.id!, 0);
     }
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          Obx(
-            () => Row(
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
                     CustomImage(
-                      serviceController.selectedVariantIndex.value > -1
+                      serviceController.selectedVariantIndex.value >= 0
                           ? widget.productInfo.variants
                               ?.elementAt(
                                   serviceController.selectedVariantIndex.value)
@@ -92,127 +94,124 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        "${widget.productInfo.name} ${serviceController.selectedVariantIndex.value > -1 ? widget.productInfo.variants?.elementAt(serviceController.selectedVariantIndex.value).moreInfo?.values.join(",") : ''}",
+                        "${widget.productInfo.name} ",
                         textStyle: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
                       UIHelper.showPrice(context,
-                          fixedPrice: widget.productInfo.fixedPrice,
+                          fixedPrice: serviceController.finalProductPrice! ~/
+                              serviceController.selectedQty.value,
                           minPrice: widget.productInfo.minPrice,
                           maxPrice: widget.productInfo.maxPrice,
-                          discountAmount: widget.discountPercent),
+                          discountAmount: widget.discountPercent,
+                          fontSize: 20),
                     ],
                   ),
                 )
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          if (widget.productInfo.moreInfo?.entries != null)
-            ...widget.productInfo.moreInfo!.entries
-                .map((e) => KeyPointWidget(text: "${e.key} -> ${e.value}"))
-                .toList(),
-          // CustomText(
-          //   productController
-          //           .productDetail?.serviceItem?.description ??
-          //       "",
-          //   textStyle: Theme.of(context).textTheme.titleMedium,
-          // ),
-          const Divider(height: 16),
 
-          if (widget.productInfo.variants?.isNotEmpty == true) ...[
-            ListHeader(
-              "Choose options",
-              isSliver: false,
-              bottomPadding: 8,
-              fontSize: 10,
-              startPadding: 0,
-            ),
-            CustomContainer(
-              padding: 0,
-              height: 100,
-              width: double.infinity,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    mainAxisExtent: 220,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 8),
-                itemBuilder: (context, index) => Obx(
-                  () => ProductVariantListTile(
-                    productVariant: widget.productInfo.variants![index],
-                    index: index,
-                    SelectedIndex: serviceController.selectedVariantIndex.value,
-                    onSelected: (newSelectedVariant) {
-                      serviceController.changeSelectedVariant(
-                          widget.productInfo.id!, index);
-                    },
-                  ),
-                ),
-                itemCount: widget.productInfo.variants?.length,
-                scrollDirection: Axis.horizontal,
+            const SizedBox(height: 16),
+            if (widget.productInfo.moreInfo?.entries != null)
+              ...widget.productInfo.moreInfo!.entries
+                  .map((e) => KeyPointWidget(text: "${e.key} -> ${e.value}"))
+                  .toList(),
+            // CustomText(
+            //   productController
+            //           .productDetail?.serviceItem?.description ??
+            //       "",
+            //   textStyle: Theme.of(context).textTheme.titleMedium,
+            // ),
+            const Divider(height: 16),
+
+            if (widget.productInfo.variants?.isNotEmpty == true) ...[
+              ListHeader(
+                "Choose options",
+                isSliver: false,
+                bottomPadding: 8,
+                fontSize: 10,
+                startPadding: 0,
               ),
-            )
-          ],
-          const SizedBox(height: 16),
-          const Divider(thickness: 1),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustomText(
-                "Qty",
-                textStyle: Theme.of(context).textTheme.titleLarge,
-              ),
-              // const Spacer(),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              serviceController.remvoeQty();
-                            },
-                            icon: const Icon(Icons.remove)),
-                        const SizedBox(width: 8),
-                        Obx(() => CustomContainer(
-                              width: 50,
-                              height: 50,
-                              color: Colors.grey[200],
-                              child: CustomText(
-                                "${serviceController.selectedQty}",
-                                textStyle:
-                                    Theme.of(context).textTheme.titleMedium,
-                              ),
-                            )),
-                        const SizedBox(width: 8),
-                        IconButton(
-                          onPressed: () {
-                            serviceController.addQty();
-                          },
-                          icon: const Icon(Icons.add),
-                        ),
-                      ],
+              CustomContainer(
+                padding: 0,
+                height: 100,
+                width: double.infinity,
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      mainAxisExtent: 220,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 8),
+                  itemBuilder: (context, index) => Obx(
+                    () => ProductVariantListTile(
+                      productVariant: widget.productInfo.variants![index],
+                      index: index,
+                      SelectedIndex:
+                          serviceController.selectedVariantIndex.value,
+                      onSelected: (newSelectedVariant) {
+                        serviceController.changeSelectedVariant(
+                            widget.productInfo.id!, index);
+                      },
                     ),
-                  ],
+                  ),
+                  itemCount: widget.productInfo.variants?.length,
+                  scrollDirection: Axis.horizontal,
                 ),
               )
             ],
-          ),
-          const SizedBox(height: 24),
-          const Divider(thickness: 1),
-          TextButton(onPressed: () {}, child: Text("Add to cart")),
-          const SizedBox(height: 8),
-          ButtonWithProgressbar(
-            text: widget.callToAction,
-            isLoading: false,
-            onClick: () {},
-          ),
-          const SizedBox(height: 16),
-        ],
+            const SizedBox(height: 16),
+            const Divider(thickness: 1),
+
+            Obx(
+              () => QtySelector(
+                qty: serviceController.selectedQty.value,
+                onAddQty: () {
+                  serviceController.addQty();
+                },
+                onRemoveQty: () {
+                  serviceController.remvoeQty();
+                },
+              ),
+            ),
+
+            const SizedBox(height: 24),
+            const Divider(thickness: 1),
+
+            Row(
+              children: [
+                UIHelper.showPrice(context,
+                    fixedPrice: serviceController.finalProductPrice,
+                    minPrice: serviceController
+                        .selectedProductDetail?.serviceItem?.minPrice,
+                    maxPrice: serviceController
+                        .selectedProductDetail?.serviceItem?.minPrice,
+                    fontSize: 20,
+                    discountAmount:
+                        serviceController.selectedCoupon?.discountAmount ?? 0),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.shopping_cart),
+                  iconSize: 40,
+                ),
+                const SizedBox(width: 16),
+                ButtonWithProgressbar(
+                  text: widget.callToAction,
+                  isLoading: false,
+                  onClick: () {
+                    UIHelper.goBack(context);
+                    serviceController.generateOrderSummary(
+                      context,
+                      callToAction: widget.callToAction,
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

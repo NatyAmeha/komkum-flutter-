@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/business.dart';
+import 'package:komkum/model/coupon.dart';
 import 'package:komkum/model/order.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/model/service.dart';
@@ -29,7 +30,7 @@ class OrderItemViewmodel {
   Business? business;
   int? price;
   int qty;
-  String? coupon;
+  Coupon? coupon;
   Service? service;
   String? image;
 

@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:komkum/model/address.dart';
 import 'package:komkum/model/contact.dart';
+import 'package:komkum/utils/constants.dart';
 
 part 'service.g.dart';
 
@@ -18,6 +19,7 @@ class Service {
   bool? active;
   String? creator;
   List<String>? serviceItems;
+  String type;
   String? callToAction;
   List<String>? coupons;
   DateTime? dateCreated;
@@ -36,6 +38,7 @@ class Service {
       this.tags,
       this.viewCount,
       this.callToAction,
+      this.type = "BOOKING",
       this.active,
       this.creator,
       this.serviceItems,

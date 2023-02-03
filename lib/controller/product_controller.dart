@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/model/coupon.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/usecase/service_usecase.dart';
 import 'package:komkum/usecase/user_usecase.dart';
+import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/screen/order_summary_screen.dart';
 import 'package:komkum/view/screen/product_list_screen.dart';
+import 'package:komkum/viewmodel/coupon_viewmodel.dart';
 import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 
@@ -29,9 +32,27 @@ class ProductController extends GetxController {
   var selectedVariantIndex = 0.obs;
   var selectedQty = 1.obs;
   ProductVariant? selectedProductVariant;
+
+  int? get finalProductPrice =>
+      (selectedProductVariant?.fixedPrice ??
+          productDetail?.serviceItem!.fixedPrice ??
+          productDetail?.serviceItem?.minPrice ??
+          0) *
+      selectedQty.value;
+
+  Coupon? get selectedCouponForProduct {
+    productDetail?.couponsInfo?.sort((a, b) =>
+        (a.couponInfo?.discountAmount ?? 10)
+            .compareTo(b.couponInfo?.discountAmount ?? 0));
+    return productDetail?.couponsInfo?.first?.couponInfo;
+  }
+
   changeSelectedVariant(int index) {
     selectedProductVariant = productDetail?.serviceItem?.variants![index];
+
     selectedVariantIndex(index);
+    // to refresh the price when product variant changed by user
+    selectedQty.refresh();
   }
 
   addQty() {
@@ -50,6 +71,8 @@ class ProductController extends GetxController {
         return null;
       }
       productDetail = null;
+      selectedQty(1);
+      selectedProductVariant = null;
       _exception(AppException());
       _isDataLoading(true);
       var serviceUsecase = ServiceUsecase(serviceRepo: ApiRepository());
@@ -142,18 +165,21 @@ class ProductController extends GetxController {
   generateOrderSummary(BuildContext context, ProductViewmodel productInfo,
       {String? callToAction}) {
     var itemName = productInfo.serviceItem?.name;
+    var image = selectedProductVariant?.images?.first ??
+        productInfo.serviceItem?.images?.first;
     if (selectedProductVariant != null) {
       itemName =
           "${productInfo.serviceItem?.name}, ${selectedProductVariant?.moreInfo?.values.join(",")}";
     }
     var orderInfo = OrderItemViewmodel(
-      name: itemName,
-      product: productInfo.serviceItem,
-      business: productInfo.businessInfo,
-      service: productInfo.serviceInfo,
-      qty: selectedQty.value,
-      price: productInfo.serviceItem?.fixedPrice ?? 100,
-    );
+        name: itemName,
+        image: image,
+        product: productInfo.serviceItem,
+        business: productInfo.businessInfo,
+        service: productInfo.serviceInfo,
+        qty: selectedQty.value,
+        coupon: selectedCouponForProduct,
+        price: ((finalProductPrice ?? 0) ~/ selectedQty.value).toInt());
 
     appController.addToCart(orderInfo);
     _isDataLoading(false);

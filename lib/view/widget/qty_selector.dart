@@ -36,17 +36,16 @@ class QtySelector extends StatelessWidget {
                         if (qty > 1) onRemoveQty?.call();
                       },
                       icon: const Icon(Icons.remove)),
-                  const SizedBox(width: 8),
                   CustomContainer(
-                    width: 50,
-                    height: 50,
+                    alignment: Alignment.center,
+                    width: 60,
+                    height: 60,
                     color: Colors.grey[200],
                     child: CustomText(
                       "$qty",
                       textStyle: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  const SizedBox(width: 8),
                   IconButton(
                     onPressed: () {
                       onAddQty?.call();

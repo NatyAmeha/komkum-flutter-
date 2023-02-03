@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/widget/custom_button.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/list_header.dart';
@@ -25,74 +26,90 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Summary"), centerTitle: true),
-      body: Obx(
-        () => CustomScrollView(
-          slivers: [
-            ListHeader(
-              "Select shipping Address",
-              showMore: true,
-              trailing: const Text("Change address"),
-            ),
-            SliverToBoxAdapter(
-              child: Column(children: [
-                const SizedBox(height: 16),
-                CustomButton("Select Shipping Address", onPressed: () {}),
-                const SizedBox(height: 16),
-                const Divider(thickness: 1),
-              ]),
-            ),
-            ListHeader(
-              "Items",
-              showMore: true,
-              trailing:
-                  Text("${orderController.appController.cartCount} items"),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: orderController.appController.cartCount,
-                (context, index) => OrderSummaryTile(
-                  orderedItemInfo: orderController.appController.cart[index],
-                  onQtyAdd: () {
-                    orderController.appController.addQty(
-                      orderController.appController.cart[index].product!.id!,
-                    );
-                  },
-                  onQtyRemove: () {
-                    orderController.appController.removeQty(
-                      orderController.appController.cart[index].product!.id!,
-                    );
-                  },
+      body: Obx(() => UIHelper.displayContent(
+            showWhen: true,
+            exception: orderController.exception,
+            isDataLoading: orderController.isDataLoading,
+            content: CustomScrollView(
+              slivers: [
+                ListHeader(
+                  "Shipping Address",
+                  showMore: true,
+                  trailing: const Text("Change"),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 16),
-                  const Divider(thickness: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        "Total",
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      CustomText(
-                        "${orderController.appController.totalPrice} Birr",
-                        textStyle: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ],
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(children: [
+                      const SizedBox(height: 16),
+                      CustomButton("Select Shipping Address", onPressed: () {}),
+                      const SizedBox(height: 16),
+                      const Divider(thickness: 1),
+                    ]),
                   ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+                ListHeader(
+                  "Items",
+                  showMore: true,
+                  trailing:
+                      Text("${orderController.appController.cartCount} items"),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: orderController.appController.cartCount,
+                    (context, index) => OrderSummaryTile(
+                      orderedItemInfo:
+                          orderController.appController.cart[index],
+                      onQtyAdd: () {
+                        orderController.appController.addQty(
+                          orderController
+                              .appController.cart[index].product!.id!,
+                        );
+                      },
+                      onQtyRemove: () {
+                        orderController.appController.removeQty(
+                          orderController
+                              .appController.cart[index].product!.id!,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Divider(thickness: 1),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              "Total",
+                              textStyle:
+                                  Theme.of(context).textTheme.titleMedium,
+                            ),
+                            CustomText(
+                              "${orderController.appController.totalPrice} Birr",
+                              textStyle: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        const Divider(thickness: 1),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          )),
       persistentFooterButtons: [
-        CustomButton(widget.callToAction ?? "Complete", onPressed: () {})
+        CustomButton(widget.callToAction ?? "Complete", onPressed: () {
+          orderController.createOrder(context);
+        })
       ],
     );
   }

@@ -27,7 +27,19 @@ class AppController extends GetxController {
   SearchViewmodel? searchResult;
 
   RxList<OrderItemViewmodel> cart = <OrderItemViewmodel>[].obs;
-  int get totalPrice => cart.sum((item) => (item.price! * item.qty));
+  int get totalPriceWithoutDiscount =>
+      cart.sum((item) => (item.price! * item.qty));
+  int get totalPrice => cart.sum(
+        (item) {
+          if (item.coupon?.discountAmount?.isGreaterThan(0) == true) {
+            return (item.price! * item.qty) -
+                (((item.price! * item.qty) * item.coupon!.discountAmount!) ~/
+                    100);
+          } else {
+            return (item.price! * item.qty);
+          }
+        },
+      );
   int get cartCount => cart.length;
 
   var myPageStack = FirstAndLastPageStack(initialPage: 0);
@@ -87,12 +99,15 @@ class AppController extends GetxController {
   }
 
   addToCart(OrderItemViewmodel item) {
-    var productIdInCart = cart.value.map((e) => e.product?.id);
-    var isProductExistBefore = productIdInCart.contains(item.product?.id);
-    if (!isProductExistBefore) {
+    var productIdInCart = cart.map((e) => e.product?.id);
+    var existingProductIndex = cart
+        .indexWhere((orderItem) => orderItem.product?.id == item.product?.id);
+    if (existingProductIndex > -1) {
+      cart[existingProductIndex] = item;
+    } else {
       cart.add(item);
-      cart.refresh();
     }
+    cart.refresh();
   }
 
   removeFromCart(String productId) {

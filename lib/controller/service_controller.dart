@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/model/coupon.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/usecase/service_usecase.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/order_summary_screen.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
@@ -26,27 +29,42 @@ class ServiceController extends GetxController {
           .toList() ??
       [];
 
-  int get discountAmount {
+  Coupon? get selectedCoupon {
     var coupons = serviceDetails?.coupons;
     if (coupons?.isNotEmpty == true) {
       coupons!.sort((a, b) => b.couponInfo!.discountAmount!
           .compareTo(a.couponInfo!.discountAmount!));
-      return coupons.first.couponInfo?.discountAmount ?? 0;
+      return coupons.first.couponInfo;
     }
-    return 0;
+    return null;
   }
+
+  int? get finalProductPrice =>
+      (selectedProductVariant?.fixedPrice ??
+          selectedProductDetail?.serviceItem!.fixedPrice ??
+          selectedProductDetail?.serviceItem?.minPrice ??
+          0) *
+      selectedQty.value;
 
   var selectedVariantIndex = (-1).obs;
   var selectedQty = 1.obs;
 
   changeSelectedVariant(String productId, int index) {
-    var selectedProduct = serviceDetails?.serviceItems
-        ?.firstWhere((element) => element.id == productId);
-
-    if (selectedProduct != null) {
-      selectedVariant = selectedProduct.variants![index];
+    if (selectedProductDetail != null &&
+        selectedProductDetail?.serviceItem?.variants?.isNotEmpty == true) {
+      selectedProductVariant =
+          selectedProductDetail!.serviceItem!.variants![index];
+      selectedVariantIndex(index);
+      // selectedQty.refresh();
     }
-    selectedVariantIndex(index);
+  }
+
+  getSelectedProducdtDetails(Product simpleProductINfo) {
+    var fullProdutInfo = ProductViewmodel(
+        serviceItem: simpleProductINfo,
+        businessInfo: serviceDetails?.business?.businessInfo,
+        serviceInfo: serviceDetails?.service);
+    selectedProductDetail = fullProdutInfo;
   }
 
   addQty() {
@@ -57,15 +75,9 @@ class ServiceController extends GetxController {
     if (selectedQty.value > 1) selectedQty.value -= 1;
   }
 
-  ProductVariant? selectedVariant;
+  ProductVariant? selectedProductVariant;
 
-  ProductViewmodel? productDetail;
-
-  @override
-  void onInit() {
-    print("service controller called");
-    super.onInit();
-  }
+  ProductViewmodel? selectedProductDetail;
 
   getServiceDetails(String serviceId, BuildContext context) async {
     try {
@@ -82,7 +94,7 @@ class ServiceController extends GetxController {
       var result = await serviceUsecase.getServiceDetail(serviceId);
       serviceDetails = result;
       selectedQty(1);
-      selectedVariantIndex(0);
+      selectedVariantIndex(-1);
 
       print("controller result is ${serviceDetails?.service?.name}");
     } catch (ex) {
@@ -96,5 +108,31 @@ class ServiceController extends GetxController {
     } finally {
       _isDataLoading(false);
     }
+  }
+
+  generateOrderSummary(BuildContext context, {String? callToAction}) {
+    var itemName = selectedProductDetail?.serviceItem?.name;
+    var image = selectedProductVariant?.images?.first ??
+        selectedProductDetail?.serviceItem?.images?.first;
+    if (selectedProductVariant != null) {
+      itemName =
+          "${selectedProductDetail?.serviceItem?.name}, ${selectedProductVariant?.moreInfo?.values.join(",")}";
+    }
+    var orderInfo = OrderItemViewmodel(
+        name: itemName,
+        image: image,
+        product: selectedProductDetail?.serviceItem,
+        business: selectedProductDetail?.businessInfo,
+        service: selectedProductDetail?.serviceInfo,
+        qty: selectedQty.value,
+        coupon: selectedCoupon,
+        price: ((finalProductPrice ?? 0) ~/ selectedQty.value).toInt());
+
+    appController.addToCart(orderInfo);
+    _isDataLoading(false);
+
+    UIHelper.goToScreen(context, OrderSummaryScreen.routeName, extra: {
+      "CALLTOACTION": callToAction,
+    });
   }
 }

@@ -249,7 +249,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 ProductList(
                   products: serviceController.serviceDetails!.serviceItems!,
                   height: 320,
-                  discountAmount: serviceController.discountAmount,
+                  discountAmount:
+                      serviceController.selectedCoupon?.discountAmount ?? 0,
                   callToAction:
                       serviceController.serviceDetails?.service?.callToAction,
                   showDetailsInDialog: true,

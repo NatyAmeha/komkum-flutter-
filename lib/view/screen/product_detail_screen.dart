@@ -11,6 +11,7 @@ import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/image_carousel.dart';
 import 'package:komkum/view/widget/key_point.dart';
 import 'package:komkum/view/widget/list_header.dart';
+import 'package:komkum/view/widget/qty_selector.dart';
 import 'package:komkum/view/widget/service_widget/product_list.dart';
 import 'package:komkum/view/widget/service_widget/product_variant_list_tile.dart';
 
@@ -74,12 +75,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: CustomText(
-                                productController
-                                        .productDetail?.serviceItem?.name ??
-                                    "",
-                                textStyle:
-                                    Theme.of(context).textTheme.titleMedium,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    "${productController.productDetail?.businessInfo?.name} > ${productController.productDetail?.serviceInfo?.name}",
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                    color: Colors.blue,
+                                  ),
+                                  CustomText(
+                                    productController
+                                            .productDetail?.serviceItem?.name ??
+                                        "",
+                                    textStyle:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                ],
                               ),
                             ),
                             Obx(
@@ -110,25 +122,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                       ),
-                      productController
-                                  .productDetail?.serviceItem?.fixedPrice !=
-                              null
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: CustomText(
-                                "${productController.productDetail?.serviceItem?.fixedPrice} Birr",
-                                textStyle:
-                                    Theme.of(context).textTheme.titleLarge,
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: CustomText(
-                                "${productController.productDetail?.serviceItem?.minPrice} Birr - ${productController.productDetail?.serviceItem?.maxPrice} Birr",
-                                textStyle:
-                                    Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
                       const SizedBox(height: 16),
                       if (productController
                               .productDetail?.serviceItem?.moreInfo?.entries !=
@@ -189,52 +182,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               productController.productDetail!.businessInfo!,
                         ),
                       const Divider(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CustomText(
-                            "Qty",
-                            textStyle: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          // const Spacer(),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          productController.remvoeQty();
-                                        },
-                                        icon: const Icon(Icons.remove)),
-                                    const SizedBox(width: 8),
-                                    Obx(() => CustomContainer(
-                                          width: 50,
-                                          height: 50,
-                                          color: Colors.grey[200],
-                                          child: CustomText(
-                                            "${productController.selectedQty}",
-                                            textStyle: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          ),
-                                        )),
-                                    const SizedBox(width: 8),
-                                    IconButton(
-                                      onPressed: () {
-                                        productController.addQty();
-                                      },
-                                      icon: const Icon(Icons.add),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                      QtySelector(
+                        qty: productController.selectedQty.value,
+                        onAddQty: () {
+                          productController.addQty();
+                        },
+                        onRemoveQty: () {
+                          productController.remvoeQty();
+                        },
                       ),
                     ],
                   ),
@@ -262,10 +217,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
-                    "${productController.productDetail?.serviceItem?.fixedPrice} Birr",
-                    textStyle: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  UIHelper.showPrice(context,
+                      fixedPrice: productController.finalProductPrice,
+                      minPrice: productController
+                          .productDetail?.serviceItem?.minPrice,
+                      maxPrice: productController
+                          .productDetail?.serviceItem?.minPrice,
+                      fontSize: 20,
+                      discountAmount: productController
+                              .selectedCouponForProduct?.discountAmount ??
+                          0),
                   CustomButton(
                       productController
                               .productDetail?.serviceInfo?.callToAction ??

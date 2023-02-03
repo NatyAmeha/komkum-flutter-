@@ -47,7 +47,9 @@ OrderItemViewmodel _$OrderItemViewmodelFromJson(Map<String, dynamic> json) =>
           : Service.fromJson(json['service'] as Map<String, dynamic>),
       price: json['price'] as int?,
       qty: json['qty'] as int? ?? 1,
-      coupon: json['coupon'] as String?,
+      coupon: json['coupon'] == null
+          ? null
+          : Coupon.fromJson(json['coupon'] as Map<String, dynamic>),
       image: json['image'] as String?,
     );
 
@@ -59,7 +61,7 @@ Map<String, dynamic> _$OrderItemViewmodelToJson(OrderItemViewmodel instance) =>
       'business': instance.business?.toJson(),
       'price': instance.price,
       'qty': instance.qty,
-      'coupon': instance.coupon,
+      'coupon': instance.coupon?.toJson(),
       'service': instance.service?.toJson(),
       'image': instance.image,
     };
