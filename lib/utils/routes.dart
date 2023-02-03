@@ -188,8 +188,8 @@ class AppRoute {
         path: OrderSummaryScreen.routeName,
         name: OrderSummaryScreen.routeName,
         builder: (context, state) {
-          var args = state.extra as Map<String, dynamic>;
-          var callToAction = args["CALLTOACTION"] as String?;
+          var args = state.extra as Map<String, dynamic>?;
+          var callToAction = args?["CALLTOACTION"] as String?;
 
           return OrderSummaryScreen(
             callToAction: callToAction,

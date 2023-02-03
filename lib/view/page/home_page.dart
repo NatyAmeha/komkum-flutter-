@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -7,8 +8,11 @@ import 'package:komkum/controller/app_controller.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
 import 'package:komkum/view/screen/login_screen.dart';
+import 'package:komkum/view/screen/order_summary_screen.dart';
 import 'package:komkum/view/screen/search_screen.dart';
+import 'package:komkum/view/widget/cart_icon.dart';
 import 'package:komkum/view/widget/coupon.tile.dart';
+import 'package:komkum/view/widget/custom_badge.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/list_header.dart';
@@ -42,15 +46,16 @@ class HomePage extends StatelessWidget {
                   textStyle: Theme.of(context).textTheme.titleLarge,
                 ),
                 actions: [
-                  IconButton(
-                    onPressed: () {
-                      UIHelper.goToScreen(context, LoginScreen.routeName);
-                    },
-                    icon: const Icon(Icons.shopping_cart, color: Colors.grey),
-                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: CartIcon(cartCount: appController.cartCount)),
                   IconButton(
                     onPressed: () {},
-                    icon: const Icon(Icons.notifications, color: Colors.grey),
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.grey,
+                      size: 30,
+                    ),
                   ),
                 ],
               ),
