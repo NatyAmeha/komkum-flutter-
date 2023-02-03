@@ -11,6 +11,10 @@ ServiceViewmodel _$ServiceViewmodelFromJson(Map<String, dynamic> json) =>
       service: json['service'] == null
           ? null
           : Service.fromJson(json['service'] as Map<String, dynamic>),
+      business: json['business'] == null
+          ? null
+          : BusienssViewmodel.fromJson(
+              json['business'] as Map<String, dynamic>),
       serviceItems: (json['serviceItems'] as List<dynamic>?)
           ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29,6 +33,7 @@ ServiceViewmodel _$ServiceViewmodelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ServiceViewmodelToJson(ServiceViewmodel instance) =>
     <String, dynamic>{
       'service': instance.service?.toJson(),
+      'business': instance.business?.toJson(),
       'serviceItems': instance.serviceItems?.map((e) => e.toJson()).toList(),
       'reviewInfo': instance.reviewInfo?.toJson(),
       'relatedServices':

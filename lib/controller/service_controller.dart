@@ -36,7 +36,7 @@ class ServiceController extends GetxController {
     return 0;
   }
 
-  var selectedVariantIndex = 0.obs;
+  var selectedVariantIndex = (-1).obs;
   var selectedQty = 1.obs;
 
   changeSelectedVariant(String productId, int index) {
@@ -81,6 +81,8 @@ class ServiceController extends GetxController {
       var serviceUsecase = ServiceUsecase(serviceRepo: ApiRepository());
       var result = await serviceUsecase.getServiceDetail(serviceId);
       serviceDetails = result;
+      selectedQty(1);
+      selectedVariantIndex(0);
 
       print("controller result is ${serviceDetails?.service?.name}");
     } catch (ex) {

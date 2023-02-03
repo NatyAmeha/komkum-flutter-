@@ -28,6 +28,7 @@ class WriteReviewScreen extends StatefulWidget {
 }
 
 class _WriteReviewScreenState extends State<WriteReviewScreen> {
+  var loadUserController = Get.lazyPut(() => UserController());
   var userController = Get.find<UserController>();
   var descriptionController = TextEditingController();
   bool isLoading = false;
@@ -47,7 +48,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
               CustomContainer(
                 color: Colors.grey[200],
                 child: CustomText(
-                  "Business Name > ${widget.title}",
+                  "${widget.review.businessName} > ${widget.title}",
                   textStyle: Theme.of(context).textTheme.titleMedium,
                 ),
               ),

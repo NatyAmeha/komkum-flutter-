@@ -11,6 +11,7 @@ import 'package:komkum/view/screen/home_screen.dart';
 import 'package:komkum/view/screen/login_screen.dart';
 import 'package:komkum/view/screen/order_details_screen.dart';
 import 'package:komkum/view/screen/order_list_screen.dart';
+import 'package:komkum/view/screen/order_summary_screen.dart';
 import 'package:komkum/view/screen/product_detail_screen.dart';
 import 'package:komkum/view/screen/product_list_screen.dart';
 import 'package:komkum/view/screen/register_screen.dart';
@@ -21,6 +22,7 @@ import 'package:komkum/view/screen/write_review_screen.dart';
 import 'package:komkum/view/widget/service_widget/product_list.dart';
 import 'package:komkum/viewmodel/business_viewmodel.dart';
 import 'package:komkum/viewmodel/coupon_viewmodel.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 
 class AppRoute {
@@ -178,6 +180,19 @@ class AppRoute {
             title: title,
             review: reviewInfo,
             reviewKeys: keyPoints?.split(",") ?? [],
+          );
+        },
+      ),
+      GoRoute(
+        // parentNavigatorKey: _rootNavigatorKey,
+        path: OrderSummaryScreen.routeName,
+        name: OrderSummaryScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>;
+          var callToAction = args["CALLTOACTION"] as String?;
+
+          return OrderSummaryScreen(
+            callToAction: callToAction,
           );
         },
       ),

@@ -266,7 +266,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     "${productController.productDetail?.serviceItem?.fixedPrice} Birr",
                     textStyle: Theme.of(context).textTheme.titleLarge,
                   ),
-                  CustomButton("Book Service", onPressed: () {})
+                  CustomButton(
+                      productController
+                              .productDetail?.serviceInfo?.callToAction ??
+                          productController
+                              .productDetail?.serviceItem?.callToAction ??
+                          "Order", onPressed: () {
+                    productController.generateOrderSummary(
+                        context, productController.productDetail!);
+                  })
                 ],
               ),
             ),

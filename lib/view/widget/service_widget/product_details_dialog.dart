@@ -59,13 +59,13 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
                 Stack(
                   children: [
                     CustomImage(
-                      widget
-                              .productInfo
-                              .variants?[
-                                  serviceController.selectedVariantIndex.value]
+                      serviceController.selectedVariantIndex.value > -1
+                          ? widget.productInfo.variants
+                              ?.elementAt(
+                                  serviceController.selectedVariantIndex.value)
                               .images
-                              ?.first ??
-                          widget.productInfo.images?.first,
+                              ?.first
+                          : widget.productInfo.images?.first,
                       width: 120,
                       height: 130,
                     ),
@@ -92,7 +92,7 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        "${widget.productInfo.name}, ${widget.productInfo.variants?[serviceController.selectedVariantIndex.value].moreInfo?.values.join(",")}",
+                        "${widget.productInfo.name} ${serviceController.selectedVariantIndex.value > -1 ? widget.productInfo.variants?.elementAt(serviceController.selectedVariantIndex.value).moreInfo?.values.join(",") : ''}",
                         textStyle: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),

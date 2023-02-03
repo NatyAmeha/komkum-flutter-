@@ -1,4 +1,5 @@
 import 'package:bottom_nav_layout/bottom_nav_layout.dart';
+import 'package:darq/darq.dart';
 import 'package:get/get.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/model/repo/shared_pref_repo.dart';
@@ -9,6 +10,7 @@ import 'package:komkum/usecase/user_usecase.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/viewmodel/browse_viewmodel.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/search_viewmodel.dart';
 
 class AppController extends GetxController {
@@ -23,6 +25,10 @@ class AppController extends GetxController {
 
   BrowseViewmodel? browseResult;
   SearchViewmodel? searchResult;
+
+  RxList<OrderItemViewmodel> cart = <OrderItemViewmodel>[].obs;
+  int get totalPrice => cart.sum((item) => (item.price! * item.qty));
+  int get cartCount => cart.length;
 
   var myPageStack = FirstAndLastPageStack(initialPage: 0);
 
@@ -77,6 +83,42 @@ class AppController extends GetxController {
       _exception(exception);
     } finally {
       _isDataLoading(false);
+    }
+  }
+
+  addToCart(OrderItemViewmodel item) {
+    var productIdInCart = cart.value.map((e) => e.product?.id);
+    var isProductExistBefore = productIdInCart.contains(item.product?.id);
+    if (!isProductExistBefore) {
+      cart.add(item);
+      cart.refresh();
+    }
+  }
+
+  removeFromCart(String productId) {
+    var result =
+        cart.firstWhereOrNull((element) => element.product?.id == productId);
+    if (result != null) {
+      cart.remove(result);
+    }
+    cart.refresh();
+  }
+
+  addQty(String productId) {
+    var productIndex =
+        cart.indexWhere((element) => element.product?.id == productId);
+    if (productIndex > -1) {
+      cart[productIndex].qty += 1;
+      cart.refresh();
+    }
+  }
+
+  removeQty(String productId) {
+    var productIndex =
+        cart.indexWhere((element) => element.product?.id == productId);
+    if (productIndex > -1) {
+      cart[productIndex].qty -= 1;
+      cart.refresh();
     }
   }
 

@@ -7,7 +7,9 @@ import 'package:komkum/usecase/service_usecase.dart';
 import 'package:komkum/usecase/user_usecase.dart';
 import 'package:komkum/utils/exception.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/order_summary_screen.dart';
 import 'package:komkum/view/screen/product_list_screen.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 
 class ProductController extends GetxController {
@@ -135,5 +137,29 @@ class ProductController extends GetxController {
     } finally {
       _isDataLoading(false);
     }
+  }
+
+  generateOrderSummary(BuildContext context, ProductViewmodel productInfo,
+      {String? callToAction}) {
+    var itemName = productInfo.serviceItem?.name;
+    if (selectedProductVariant != null) {
+      itemName =
+          "${productInfo.serviceItem?.name}, ${selectedProductVariant?.moreInfo?.values.join(",")}";
+    }
+    var orderInfo = OrderItemViewmodel(
+      name: itemName,
+      product: productInfo.serviceItem,
+      business: productInfo.businessInfo,
+      service: productInfo.serviceInfo,
+      qty: selectedQty.value,
+      price: productInfo.serviceItem?.fixedPrice ?? 100,
+    );
+
+    appController.addToCart(orderInfo);
+    _isDataLoading(false);
+
+    UIHelper.goToScreen(context, OrderSummaryScreen.routeName, extra: {
+      "CALLTOACTION": callToAction,
+    });
   }
 }

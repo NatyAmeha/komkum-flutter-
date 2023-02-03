@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:komkum/controller/app_controller.dart';
 import 'package:komkum/model/order.dart';
 import 'package:komkum/model/repo/api_repository.dart';
 import 'package:komkum/usecase/order_usecase.dart';
@@ -11,6 +12,7 @@ import 'package:komkum/view/screen/order_list_screen.dart';
 import 'package:komkum/viewmodel/order_viewmodel.dart';
 
 class Ordercontroller extends GetxController {
+  var appController = Get.find<AppController>();
   var _isDataLoading = true.obs;
   get isDataLoading => _isDataLoading.value;
 

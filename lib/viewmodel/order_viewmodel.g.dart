@@ -31,3 +31,35 @@ Map<String, dynamic> _$OrderViewmodelToJson(OrderViewmodel instance) =>
       'business': instance.business?.toJson(),
       'userReviewInfo': instance.userReviewInfo?.toJson(),
     };
+
+OrderItemViewmodel _$OrderItemViewmodelFromJson(Map<String, dynamic> json) =>
+    OrderItemViewmodel(
+      id: json['_id'] as String?,
+      name: json['name'] as String?,
+      product: json['product'] == null
+          ? null
+          : Product.fromJson(json['product'] as Map<String, dynamic>),
+      business: json['business'] == null
+          ? null
+          : Business.fromJson(json['business'] as Map<String, dynamic>),
+      service: json['service'] == null
+          ? null
+          : Service.fromJson(json['service'] as Map<String, dynamic>),
+      price: json['price'] as int?,
+      qty: json['qty'] as int? ?? 1,
+      coupon: json['coupon'] as String?,
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$OrderItemViewmodelToJson(OrderItemViewmodel instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+      'product': instance.product?.toJson(),
+      'business': instance.business?.toJson(),
+      'price': instance.price,
+      'qty': instance.qty,
+      'coupon': instance.coupon,
+      'service': instance.service?.toJson(),
+      'image': instance.image,
+    };

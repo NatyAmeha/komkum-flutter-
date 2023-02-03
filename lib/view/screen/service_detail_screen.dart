@@ -5,8 +5,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:komkum/controller/service_controller.dart';
+import 'package:komkum/model/business.dart';
+import 'package:komkum/model/review.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/write_review_screen.dart';
 import 'package:komkum/view/widget/coupons_widget/coupon_card.dart';
 import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_text.dart';
@@ -22,7 +25,8 @@ import 'package:komkum/viewmodel/service_viewmodel.dart';
 class ServiceDetailScreen extends StatefulWidget {
   static const routeName = "/service/:id";
   String serviceId;
-  ServiceDetailScreen({required this.serviceId});
+  Business? business;
+  ServiceDetailScreen({required this.serviceId, this.business});
 
   @override
   State<ServiceDetailScreen> createState() => _ServiceDetailScreenState();
@@ -64,6 +68,33 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     child: Text(
                         serviceController.serviceDetails?.service?.name ?? "")),
                 centerTitle: true,
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        UIHelper.goToScreen(
+                          context,
+                          WriteReviewScreen.routeName,
+                          extra: {
+                            "TITLE":
+                                "${serviceController.serviceDetails?.service?.name}",
+                            "REVIEW": Review(
+                              business: serviceController
+                                  .serviceDetails?.business?.businessInfo?.id,
+                              businessName:
+                                  "${serviceController.serviceDetails?.business?.businessInfo?.name}",
+                              service:
+                                  serviceController.serviceDetails?.service?.id,
+                              serviceName:
+                                  "${serviceController.serviceDetails?.service?.name}",
+                            ),
+                            "KEYPOINTS": serviceController
+                                .serviceDetails?.service?.reviewPoints
+                                ?.join(",")
+                          },
+                        );
+                      },
+                      icon: Icon(Icons.add))
+                ],
               ),
               if (serviceController
                       .serviceDetails?.service?.images?.isNotEmpty ==
@@ -105,6 +136,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      CustomText(
+                        "${serviceController.serviceDetails?.business?.businessInfo?.name} ",
+                        textStyle: Theme.of(context).textTheme.bodySmall,
+                        color: Colors.blue,
+                      ),
                       CustomText(
                         "${serviceController.serviceDetails?.service?.name} ",
                         textStyle: Theme.of(context).textTheme.titleLarge,
