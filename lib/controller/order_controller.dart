@@ -53,12 +53,13 @@ class Ordercontroller extends GetxController {
     }
   }
 
-  createOrder(BuildContext context) async {
+  createOrder(BuildContext context, {String? customOrderName}) async {
     try {
       //remove any exception
       _exception(AppException());
       _isDataLoading(true);
-      var orderName = appController.cart.map((e) => e.business?.name).join(",");
+      var orderName = customOrderName ??
+          appController.cart.map((e) => e.business?.name).join(",");
       var orderImages = appController.cart.map((e) => e.image!).toList();
 
       var orderType = appController.cart.length > 1
@@ -94,7 +95,7 @@ class Ordercontroller extends GetxController {
       var exception = ex as AppException;
       exception.action = () {
         _exception(AppException());
-        createOrder(context);
+        createOrder(context, customOrderName: customOrderName);
       };
       _exception(exception);
     } finally {

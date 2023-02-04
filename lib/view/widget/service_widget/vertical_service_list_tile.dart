@@ -16,21 +16,33 @@ import 'package:komkum/view/widget/review_widget/custom_rating_bar.dart';
 import 'package:komkum/viewmodel/service_viewmodel.dart';
 
 class VerticalServiceListTile extends StatelessWidget {
+  int index;
   ServiceViewmodel serviceInfo;
   double height;
   int discount;
+  List<int> selectedServiceIndexes;
+  Function? onServiceSelected;
 
-  VerticalServiceListTile(
-      {required this.serviceInfo, this.height = 200, this.discount = 0});
+  VerticalServiceListTile({
+    required this.index,
+    required this.serviceInfo,
+    this.height = 200,
+    this.discount = 0,
+    this.selectedServiceIndexes = const [],
+    this.onServiceSelected,
+  });
   var carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
-    print("service discount amount $discount  ${serviceInfo.service?.name}");
     var servicePriceRange = UIHelper.getServicePriceRange(serviceInfo);
 
     return CustomContainer(
         onTap: () {
-          UIHelper.goToScreen(context, "/service/${serviceInfo.service?.id}");
+          if (onServiceSelected != null) {
+            onServiceSelected!.call();
+          } else {
+            UIHelper.goToScreen(context, "/service/${serviceInfo.service?.id}");
+          }
         },
         child: Row(
           children: [
@@ -44,6 +56,21 @@ class VerticalServiceListTile extends StatelessWidget {
                     controller: carouselController,
                     height: height,
                   ),
+                  if (selectedServiceIndexes.contains(index))
+                    Positioned.fill(
+                        child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        color: Colors.white70,
+                        height: 50,
+                        width: 50,
+                        child: const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 50,
+                        ),
+                      ),
+                    ))
                 ],
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:komkum/model/service.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/widget/service_widget/business_services_list_tile.dart';
 import 'package:komkum/view/widget/service_widget/horizontal_service_list_tile.dart';
@@ -14,13 +15,18 @@ class ServiceList extends StatelessWidget {
   double width;
   double height;
   int? discount;
-  ServiceList(
-      {required this.services,
-      this.isSliver = false,
-      this.listtype = ServiceListType.HORIZONTAL,
-      this.height = 310,
-      this.width = 300,
-      this.discount});
+  List<int> selectedServiceindexes;
+  Function(ServiceViewmodel?)? onServiceSelected;
+  ServiceList({
+    required this.services,
+    this.isSliver = false,
+    this.listtype = ServiceListType.HORIZONTAL,
+    this.height = 310,
+    this.width = 300,
+    this.discount,
+    this.onServiceSelected,
+    this.selectedServiceindexes = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,20 +117,30 @@ class ServiceList extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
           childCount: services.length,
           (context, index) => VerticalServiceListTile(
+            index: index,
             serviceInfo: services[index],
             discount: discount ??
                 services[index].coupons?.first.couponInfo?.discountAmount ??
                 0,
+            selectedServiceIndexes: selectedServiceindexes,
+            onServiceSelected: () {
+              onServiceSelected?.call(services[index]);
+            },
           ),
         ));
       } else {
         return ListView.builder(
           itemBuilder: (context, index) => VerticalServiceListTile(
+            index: index,
             serviceInfo: services[index],
             discount: discount ??
                 services[index].coupons?.first.couponInfo?.discountAmount ??
                 0,
             height: height,
+            onServiceSelected: () {
+              onServiceSelected?.call(services[index]);
+            },
+            selectedServiceIndexes: selectedServiceindexes,
           ),
           itemCount: services.length,
         );

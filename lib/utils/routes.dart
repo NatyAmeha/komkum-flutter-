@@ -1,10 +1,13 @@
 import 'package:go_router/go_router.dart';
+import 'package:komkum/model/coupon.dart';
+import 'package:komkum/model/product.dart';
 import 'package:komkum/model/review.dart';
 import 'package:komkum/utils/constants.dart';
 import 'package:komkum/view/page/error_page.dart';
 import 'package:komkum/view/page/home_page.dart';
 import 'package:komkum/view/screen/business_list_screen.dart';
 import 'package:komkum/view/screen/business_screen.dart';
+import 'package:komkum/view/screen/ccoupon_customization_screen.dart';
 import 'package:komkum/view/screen/coupon_list_screen.dart';
 import 'package:komkum/view/screen/coupons_screen.dart';
 import 'package:komkum/view/screen/home_screen.dart';
@@ -190,9 +193,28 @@ class AppRoute {
         builder: (context, state) {
           var args = state.extra as Map<String, dynamic>?;
           var callToAction = args?["CALLTOACTION"] as String?;
+          var orderName = args?["ORDERNAME"] as String?;
 
           return OrderSummaryScreen(
             callToAction: callToAction,
+            orderName: orderName,
+          );
+        },
+      ),
+      GoRoute(
+        // parentNavigatorKey: _rootNavigatorKey,
+        path: CouponCustomizationScreen.routeName,
+        name: CouponCustomizationScreen.routeName,
+        builder: (context, state) {
+          var args = state.extra as Map<String, dynamic>?;
+          var couponInfo = args?["COUPON"] as CouponViewmodel;
+          var callToAction = args?["CALLTOACTION"] as String;
+          var products = args?['PRODUCTS'] as List<Product>;
+
+          return CouponCustomizationScreen(
+            couponViewmodel: couponInfo,
+            callToActionText: callToAction,
+            serviceProducts: products,
           );
         },
       ),

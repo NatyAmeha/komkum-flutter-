@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:komkum/controller/app_controller.dart';
+import 'package:komkum/model/business.dart';
 import 'package:komkum/model/coupon.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/model/repo/api_repository.dart';
@@ -110,7 +111,10 @@ class ServiceController extends GetxController {
     }
   }
 
-  generateOrderSummary(BuildContext context, {String? callToAction}) {
+  OrderItemViewmodel generateOrderSummary(
+    BuildContext context, {
+    String? callToAction,
+  }) {
     var itemName = selectedProductDetail?.serviceItem?.name;
     var image = selectedProductVariant?.images?.first ??
         selectedProductDetail?.serviceItem?.images?.first;
@@ -122,7 +126,8 @@ class ServiceController extends GetxController {
         name: itemName,
         image: image,
         product: selectedProductDetail?.serviceItem,
-        business: selectedProductDetail?.businessInfo,
+        business: selectedProductDetail?.businessInfo ??
+            Business(id: selectedProductDetail?.serviceItem?.business),
         service: selectedProductDetail?.serviceInfo,
         qty: selectedQty.value,
         coupon: selectedCoupon,
@@ -131,8 +136,6 @@ class ServiceController extends GetxController {
     appController.addToCart(orderInfo);
     _isDataLoading(false);
 
-    UIHelper.goToScreen(context, OrderSummaryScreen.routeName, extra: {
-      "CALLTOACTION": callToAction,
-    });
+    return orderInfo;
   }
 }

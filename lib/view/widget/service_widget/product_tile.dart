@@ -10,6 +10,7 @@ import 'package:komkum/view/widget/custom_container.dart';
 import 'package:komkum/view/widget/custom_image.dart';
 import 'package:komkum/view/widget/custom_text.dart';
 import 'package:komkum/view/widget/service_widget/product_details_dialog.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 
 class ProductTile extends StatelessWidget {
   Product productInfo;
@@ -17,13 +18,16 @@ class ProductTile extends StatelessWidget {
   double height;
   bool showInDialog;
   String? serviceCallToAction;
-
+  bool showCouponFooter;
+  Function(OrderItemViewmodel)? onOrderItemSelected;
   ProductTile({
     required this.productInfo,
     this.height = 160,
     this.discountAmount = 10,
     this.showInDialog = false,
     this.serviceCallToAction,
+    this.showCouponFooter = false,
+    this.onOrderItemSelected,
   });
 
   @override
@@ -46,6 +50,10 @@ class ProductTile extends StatelessWidget {
                       productInfo.callToAction ??
                       "Order",
                   discountPercent: discountAmount,
+                  showFooterForCoupon: showCouponFooter,
+                  onOrderItemSelected: (selectedOrderItem) {
+                    onOrderItemSelected?.call(selectedOrderItem);
+                  },
                 ),
               );
             } else {
@@ -72,7 +80,7 @@ class ProductTile extends StatelessWidget {
                         badgeColor: Colors.green,
                         borderRadius: 0,
                         content: CustomText(
-                          "${discountAmount}% Off",
+                          "$discountAmount% Off",
                           textStyle: Theme.of(context).textTheme.caption,
                           color: Colors.white,
                         ),

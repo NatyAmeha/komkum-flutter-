@@ -8,6 +8,7 @@ import 'package:komkum/controller/product_controller.dart';
 import 'package:komkum/controller/service_controller.dart';
 import 'package:komkum/model/product.dart';
 import 'package:komkum/utils/ui_helper.dart';
+import 'package:komkum/view/screen/order_summary_screen.dart';
 import 'package:komkum/view/widget/button_with_progressbar.dart';
 import 'package:komkum/view/widget/custom_badge.dart';
 import 'package:komkum/view/widget/custom_button.dart';
@@ -19,16 +20,21 @@ import 'package:komkum/view/widget/key_point.dart';
 import 'package:komkum/view/widget/list_header.dart';
 import 'package:komkum/view/widget/qty_selector.dart';
 import 'package:komkum/view/widget/service_widget/product_variant_list_tile.dart';
+import 'package:komkum/viewmodel/order_viewmodel.dart';
 import 'package:komkum/viewmodel/product_viewmodel.dart';
 
 class ProductDetailsDialog extends StatefulWidget {
   Product productInfo;
   String callToAction;
   int discountPercent;
+  bool showFooterForCoupon;
+  Function(OrderItemViewmodel)? onOrderItemSelected;
   ProductDetailsDialog({
     required this.productInfo,
     required this.callToAction,
     this.discountPercent = 0,
+    this.showFooterForCoupon = false,
+    this.onOrderItemSelected,
   });
 
   @override
@@ -36,6 +42,7 @@ class ProductDetailsDialog extends StatefulWidget {
 }
 
 class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
+  var loadServiceController = Get.lazyPut(() => ServiceController());
   var serviceController = Get.find<ServiceController>();
   var qtyTextController = TextEditingController(text: "1");
 
@@ -43,6 +50,8 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
 
   @override
   Widget build(BuildContext context) {
+    serviceController.selectedVariantIndex(-1);
+    serviceController.selectedQty(1);
     serviceController.getSelectedProducdtDetails(widget.productInfo);
     if (widget.productInfo.variants?.isNotEmpty == true) {
       serviceController.changeSelectedVariant(widget.productInfo.id!, 0);
@@ -72,7 +81,7 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
                       height: 130,
                     ),
                     if (widget.discountPercent > 0)
-                      Positioned(
+                      Positioned.fill(
                           child: Align(
                         alignment: Alignment.topLeft,
                         child: CustomBadge(
@@ -177,37 +186,72 @@ class _ProductDetailsDialogState extends State<ProductDetailsDialog> {
             const SizedBox(height: 24),
             const Divider(thickness: 1),
 
-            Row(
-              children: [
-                UIHelper.showPrice(context,
-                    fixedPrice: serviceController.finalProductPrice,
-                    minPrice: serviceController
-                        .selectedProductDetail?.serviceItem?.minPrice,
-                    maxPrice: serviceController
-                        .selectedProductDetail?.serviceItem?.minPrice,
-                    fontSize: 20,
-                    discountAmount:
-                        serviceController.selectedCoupon?.discountAmount ?? 0),
-                const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_cart),
-                  iconSize: 40,
-                ),
-                const SizedBox(width: 16),
-                ButtonWithProgressbar(
-                  text: widget.callToAction,
-                  isLoading: false,
-                  onClick: () {
-                    UIHelper.goBack(context);
-                    serviceController.generateOrderSummary(
-                      context,
-                      callToAction: widget.callToAction,
-                    );
-                  },
-                ),
-              ],
-            ),
+            widget.showFooterForCoupon
+                ? Row(
+                    children: [
+                      UIHelper.showPrice(context,
+                          fixedPrice: serviceController.finalProductPrice,
+                          minPrice: serviceController
+                              .selectedProductDetail?.serviceItem?.minPrice,
+                          maxPrice: serviceController
+                              .selectedProductDetail?.serviceItem?.minPrice,
+                          fontSize: 22,
+                          discountAmount: widget.discountPercent ??
+                              serviceController
+                                  .selectedCoupon?.discountAmount ??
+                              0),
+                      const Spacer(),
+                      CustomButton("Select Product", onPressed: () {
+                        var orderItemInfo =
+                            serviceController.generateOrderSummary(
+                          context,
+                          callToAction: widget.callToAction,
+                        );
+                        UIHelper.goBack(context);
+                        widget.onOrderItemSelected?.call(orderItemInfo);
+                      }),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      UIHelper.showPrice(context,
+                          fixedPrice: serviceController.finalProductPrice,
+                          minPrice: serviceController
+                              .selectedProductDetail?.serviceItem?.minPrice,
+                          maxPrice: serviceController
+                              .selectedProductDetail?.serviceItem?.minPrice,
+                          fontSize: 20,
+                          discountAmount: serviceController
+                                  .selectedCoupon?.discountAmount ??
+                              0),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.shopping_cart),
+                        iconSize: 40,
+                      ),
+                      const SizedBox(width: 16),
+                      ButtonWithProgressbar(
+                        text: widget.callToAction,
+                        isLoading: false,
+                        onClick: () {
+                          UIHelper.goBack(context);
+                          var orderItemInfo =
+                              serviceController.generateOrderSummary(
+                            context,
+                            callToAction: widget.callToAction,
+                          );
+                          UIHelper.goToScreen(
+                            context,
+                            OrderSummaryScreen.routeName,
+                            extra: {
+                              "CALLTOACTION": widget.callToAction,
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
 
             const SizedBox(height: 16),
           ],

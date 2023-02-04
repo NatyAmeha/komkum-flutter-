@@ -13,8 +13,9 @@ import '../../controller/order_controller.dart';
 
 class OrderSummaryScreen extends StatefulWidget {
   static const routeName = "/summary";
+  String? orderName;
   String? callToAction;
-  OrderSummaryScreen({this.callToAction});
+  OrderSummaryScreen({this.orderName, this.callToAction});
 
   @override
   State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
@@ -108,7 +109,8 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
           )),
       persistentFooterButtons: [
         CustomButton(widget.callToAction ?? "Complete", onPressed: () {
-          orderController.createOrder(context);
+          orderController.createOrder(context,
+              customOrderName: widget.orderName);
         })
       ],
     );
